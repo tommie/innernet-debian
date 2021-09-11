@@ -30,17 +30,17 @@ main() {
             wget --header='Accept: application/octet-stream' -O"$name" "$url"
             reprepro -b ../debian includedeb unstable "$name"
         done
-
-        if has_changes ../debian/{db,dists,pool}; then
-            git \
-                -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
-                -c 'user.name=github-actions[bot]' \
-                commit -m "Included release $release_repo@$(cat latest.json | jq -r '.name | ltrimstr("v")')." \
-                ../debian/{db,dists,pool}
-        else
-            echo 'No updates to commit.'
-        fi
     )
+
+    if has_changes debian/{db,dists,pool}; then
+        git add debian/{db,dists,pool}
+        git \
+            -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
+            -c 'user.name=github-actions[bot]' \
+            commit -m "Included release $release_repo@$(cat "$tmpd/latest.json" | jq -r '.name | ltrimstr("v")')."
+    else
+        echo 'No updates to commit.'
+    fi
 }
 
 main
