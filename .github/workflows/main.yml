@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Update Repository
+
+# Controls when the workflow will run
+on:
+  #push:
+  #  # If the configuration has changed, this ensures we apply updates.
+  #  branches: [ main ]
+
+  #schedule:
+  #  # Upstream releases around once per month, so twice a week should be fine.
+  #  - cron:  '23 14 * * mon,thu'
+
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install dependencies
+        run: DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends --yes gpg jq reprepro
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # See https://github.com/marketplace/actions/github-push
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Download and include package files
+        run: ./addlatest
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

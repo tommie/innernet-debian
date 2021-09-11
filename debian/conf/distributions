@@ -1,0 +1,8 @@
+Origin: Unofficial Innernet Debian repository
+Label: innernet-debian
+Description: APT repository for https://github.com/tonarino/innernet/.
+Codename: bullseye
+Suite: unstable
+Architectures: amd64
+Components: contrib
+DebOverride: deboverride

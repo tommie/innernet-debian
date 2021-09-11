@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Downloads upstream releases and uses reprepro to update the
+# repository in debian/. This is idempotent and doesn't clobber files
+# if the latest releases is already included.
+#
+
+set -e
+
+release_repo=tonarino/innernet
+
+has_changes() {
+    git status --porcelain --untracked-files=no | grep -q .
+}
+
+main() {
+    local tmpd
+    tmpd="$(mktemp -d tmp.addlatest.XXXXXXXXXX)"
+
+    (
+        cd "$tmpd"
+
+        wget -Olatest.json \
+             -H'Accept: application/json' \
+             "https://api.github.com/repos/$release_repo/releases/latest"
+
+        cat latest.json \
+            | jq -r '.assets[] | select(.name | endswith(".deb")) | (.name + " " + .url)' \
+            | while read name url; do
+            wget --header='Accept: application/octet-stream' -O"$name" "$url"
+            reprepro -b ../debian includedeb unstable "$name"
+        done
+
+        if has_changes; then
+            git \
+                -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
+                -c 'user.name=github-actions[bot]' \
+                commit -m "Included release $release_repo@$(cat latest.json | jq -r '.name | ltrimstr("v")')." debian/{db,dists,pool}
+        else
+            echo 'No updates to commit.'
+        fi
+    )
+}
+
+main
