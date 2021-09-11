@@ -33,7 +33,7 @@ jobs:
 
       - name: Set up GPG keys
         run: |
-          mkdir -p "$HOME/.gnupg"
+          mkdir -p -m 0700 "$HOME/.gnupg"
           echo allow-preset-passphrase >>"$HOME/.gnupg/gpg-agent.conf"
           gpgconf --reload gpg-agent
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import

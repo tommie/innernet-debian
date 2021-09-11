@@ -28,9 +28,13 @@ main() {
             | jq -r '.assets[] | select(.name | endswith(".deb")) | (.name + " " + .url)' \
             | while read name url; do
             wget --header='Accept: application/octet-stream' -O"$name" "$url"
-            reprepro -b ../debian includedeb unstable "$name"
+            reprepro --export=silent-never -b ../debian includedeb unstable "$name"
         done
     )
+
+    if has_changes debian/pool; then
+        reprepro -b debian export unstable
+    fi
 
     if has_changes debian/{db,dists,pool}; then
         git add debian/{db,dists,pool}
