@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Install dependencies
-        run: DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends --yes gpg jq reprepro
+        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes gpg jq reprepro
 
       - name: Checkout
         uses: actions/checkout@v2
