@@ -39,7 +39,7 @@ jobs:
           echo 'allow-preset-passphrase' >>"$HOME/.gnupg/gpg-agent.conf"
           gpgconf --reload gpg-agent
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
-          echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset reprepro:1
+          echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset 57F0E65446A301CC19914FD61167922350A2D8B2
 
       - name: Download and include package files
         run: ./addlatest
