@@ -34,7 +34,9 @@ jobs:
       - name: Set up GPG keys
         run: |
           mkdir -p -m 0700 "$HOME/.gnupg"
-          echo allow-preset-passphrase >>"$HOME/.gnupg/gpg-agent.conf"
+          echo 'pinentry-mode loopback' >>"$HOME/.gnupg/gpg.conf"
+          echo 'allow-loopback-pinentry' >>"$HOME/.gnupg/gpg-agent.conf"
+          echo 'allow-preset-passphrase' >>"$HOME/.gnupg/gpg-agent.conf"
           gpgconf --reload gpg-agent
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
           echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset reprepro:1
