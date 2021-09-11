@@ -4,13 +4,13 @@ name: Update Repository
 
 # Controls when the workflow will run
 on:
-  #push:
-  #  # If the configuration has changed, this ensures we apply updates.
-  #  branches: [ main ]
+  push:
+    # If the configuration has changed, this ensures we apply updates.
+    branches: [ main ]
 
-  #schedule:
-  #  # Upstream releases around once per month, so twice a week should be fine.
-  #  - cron:  '23 14 * * mon,thu'
+  schedule:
+    # Upstream releases around once per month, so twice a week should be fine.
+    - cron:  '23 14 * * mon,thu'
 
   workflow_dispatch:
 
