@@ -34,11 +34,10 @@ jobs:
       - name: Set up GPG keys
         run: |
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
-          echo "echo ${{ secrets.GPG_SIGNING_PASSPHRASE }}" >/tmp/gpg-pinentry
-          chmod 700 /tmp/gpg-pinentry
+          gpg-connect-agent "PRESET_PASSPHRASE tommie/innernet-debian -1 $(${{ secrets.GPG_SIGNING_PASSPHRASE }} | od -An -w256 -tx1 | tr -d ' ')" /bye
 
       - name: Download and include package files
-        run: gpg-agent --pinentry-program /tmp/gpg-pinentry --daemon ./addlatest
+        run: ./addlatest
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
