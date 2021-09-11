@@ -10,7 +10,7 @@ set -e
 release_repo=tonarino/innernet
 
 has_changes() {
-    git status --porcelain --untracked-files=no | grep -q .
+    git status --porcelain "$@" | grep -q .
 }
 
 main() {
@@ -31,11 +31,12 @@ main() {
             reprepro -b ../debian includedeb unstable "$name"
         done
 
-        if has_changes; then
+        if has_changes ../debian/{db,dists,pool}; then
             git \
                 -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
                 -c 'user.name=github-actions[bot]' \
-                commit -m "Included release $release_repo@$(cat latest.json | jq -r '.name | ltrimstr("v")')." debian/{db,dists,pool}
+                commit -m "Included release $release_repo@$(cat latest.json | jq -r '.name | ltrimstr("v")')." \
+                ../debian/{db,dists,pool}
         else
             echo 'No updates to commit.'
         fi
