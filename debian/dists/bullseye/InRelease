@@ -1,0 +1,37 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: Unofficial Innernet Debian repository
+Label: innernet-debian
+Suite: unstable
+Codename: bullseye
+Date: Sat, 11 Sep 2021 11:22:11 UTC
+Architectures: amd64
+Components: contrib
+Description: APT repository for https://github.com/tonarino/innernet/.
+MD5Sum:
+ a0f7834a69495dfafadef1bef68ac156 11129 contrib/binary-amd64/Packages
+ fad31ef85a5bda42271fcf663dbd3fb4 4499 contrib/binary-amd64/Packages.gz
+ 054c9a1e8a25809201dc62d407f4e83e 197 contrib/binary-amd64/Release
+SHA1:
+ 5d0bc00e1374cc23225de1d5e05da469087eced3 11129 contrib/binary-amd64/Packages
+ 7f15fde5972a28d092d04a651f6f678670ae5633 4499 contrib/binary-amd64/Packages.gz
+ 27df8ea870558476a122fd03363988c0ff791151 197 contrib/binary-amd64/Release
+SHA256:
+ 01c15437c1030c91cc54081f483d287a5184c5f22b73db72b3ce672a1f74d286 11129 contrib/binary-amd64/Packages
+ 809770fa7f07d896ba2cb86c0c226e3e20d43c3ea269b57297aefbd26abed641 4499 contrib/binary-amd64/Packages.gz
+ 852d73d87a0a610605e16f05c4b773ed6fda9a47be68fb4809171988c79f96ed 197 contrib/binary-amd64/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmE8kWQACgkQZYKNdDzu
+i2lwQwv9GWTd3mVWn7JRvmHFtessX5Rj5iPQOFSllLcD4QwSMWaiQvg2wUXo3d3M
+p3v65nOlF6TkxnqOEo7cLSgkEE1iVofn1peygz34ewBICf4lM9WBE5qiBmED8IEB
+g+Ooco2/aJBpctaiScB9n7b2hbmcXdU4hm5fOk0hrYJ7iWxe4qRjX3oS6acrtfN0
+CQeGV4paCklyZ60A0hwmCwm/3sCJqZbbRa8dWa0GHrgyRojrYycGoqg0VuA95ZhE
+ehXxuo+XqBZpaICjq+BZmtS9HZuT2wTPZmrgwqmrEc9/stcpS53Ve15M3N0VRdyY
+zuUTs1RuxH7uAkQhTz5dGXZocZt6Wre4KUUa1R3U5KJvn1U0oMnjCeZzPubTjRq3
+2GrGMy8Du1dX/efIOg37xmGT/W2wTbfzf0HHt2nNL7G7VPTEtpPRjChpXChnEkAP
+M4kdNB3fKYcAibDEuIF5qmzt/lW7lbSWM2QPvrAaoODDbzYvrLTWv/3JELDAqK2J
+3VkqhdyO
+=7GBo
+-----END PGP SIGNATURE-----
