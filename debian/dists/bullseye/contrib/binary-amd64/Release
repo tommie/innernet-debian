@@ -1,0 +1,6 @@
+Archive: unstable
+Component: contrib
+Origin: Unofficial Innernet Debian repository
+Label: innernet-debian
+Architecture: amd64
+Description: APT repository for https://github.com/tonarino/innernet/.
