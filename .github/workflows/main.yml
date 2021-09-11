@@ -33,8 +33,10 @@ jobs:
 
       - name: Set up GPG keys
         run: |
+          echo allow-preset-passphrase >>$HOME/.gnupg/gpg-agent.conf
+          gpgconf --reload gpg-agent
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
-          gpg-connect-agent "PRESET_PASSPHRASE tommie/innernet-debian -1 $(${{ secrets.GPG_SIGNING_PASSPHRASE }} | od -An -w256 -tx1 | tr -d ' ')" /bye
+          gpg-connect-agent "PRESET_PASSPHRASE tommie/innernet-debian -1 $(echo ${{ secrets.GPG_SIGNING_PASSPHRASE }} | od -An -w256 -tx1 | tr -d ' ')" /bye
 
       - name: Download and include package files
         run: ./addlatest
