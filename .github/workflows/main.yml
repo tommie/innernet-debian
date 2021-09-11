@@ -31,8 +31,14 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
+      - name: Set up GPG keys
+        run: |
+          echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
+          echo "echo ${{ secrets.GPG_SIGNING_PASSPHRASE }}" >/tmp/gpg-pinentry
+          chmod 700 /tmp/gpg-pinentry
+
       - name: Download and include package files
-        run: ./addlatest
+        run: gpg-agent --pinentry-program /tmp/gpg-pinentry --daemon ./addlatest
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
