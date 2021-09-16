@@ -1,37 +1,39 @@
 Package: innernet
-Version: 1.4.1
+Version: 1.5.0~beta.5
 Architecture: amd64
 Vcs-Browser: https://github.com/tonarino/innernet
 Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 7560
-Depends: libc6, libgcc1, systemd
+Installed-Size: 7720
+Depends: libgcc1, systemd, libc6
+Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.4.1_amd64.deb
-Size: 1069196
-SHA256: d002ebdd6845744a6931b9b586b5a8e2b3ef60403c0e5a9fb74bc74c51f5e564
-SHA1: f914c4f8104052c48cc9174431cc7e1b78c4808e
-MD5sum: 2c94a01ab32e70a6c8b22f8dc94a530c
+Filename: pool/contrib/i/innernet/innernet_1.5.0~beta.5_amd64.deb
+Size: 1093668
+SHA256: 584db075420fbd2db6d0ea9298d491f5bbb834f4b99ad41123188e0ef6929f4e
+SHA1: b5714398b2c120d4dd1408d31b3875360671c855
+MD5sum: b6a2514a333ed705ee99abbc388cfc70
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.4.1
+Version: 1.5.0~beta.5
 Architecture: amd64
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 4135
-Depends: libsqlite3-0, zlib1g, libgcc1, systemd, libc6
+Installed-Size: 4227
+Depends: systemd, zlib1g, libsqlite3-0, libgcc1, libc6
+Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.4.1_amd64.deb
-Size: 1173208
-SHA256: 278ebba60d59f0970375fdc002e5ee7fd73e050181fb2e45b4850f79ae0d83a7
-SHA1: 2a2a735d5f3dec7f5963f5e0498715c6b277f5c9
-MD5sum: f2ba3bbd3eccb5e459187fc4d6030f0b
+Filename: pool/contrib/i/innernet-server/innernet-server_1.5.0~beta.5_amd64.deb
+Size: 1202172
+SHA256: 9e1d28e080c199e5bfe515f3ffc8a3fb6845bd7461168c53cfc57d3a4b015c95
+SHA1: 82f078d1da4629d88ce3bdcf7958b45dc159716a
+MD5sum: 3d3d5f7887723cca6b2f9aca58233ba0
 Description: A server to coordinate innernet networks.
  # innernet
  .
@@ -233,6 +235,16 @@ Description: A server to coordinate innernet networks.
  sudo innernet set-listen-port -u <interface>
  ```
  .
+ ### Remove Network
+ .
+ To permanently uninstall a created network, use
+ .
+ ```sh
+ sudo innernet-server uninstall <interface>
+ ```
+ .
+ Use with care!
+ .
  ## Security recommendations
  .
  If you're running a service on innernet, there are some important security
@@ -306,10 +318,12 @@ Description: A server to coordinate innernet networks.
  .
  ```sh
  # to install innernet:
- cargo install --git https://github.com/tonarino/innernet --tag v1.4.1 client
+ cargo install --git https://github.com/tonarino/innernet --tag v1.5.0-beta.5
+ client
  .
  # to install innernet-server:
- cargo install --git https://github.com/tonarino/innernet --tag v1.4.1 server
+ cargo install --git https://github.com/tonarino/innernet --tag v1.5.0-beta.5
+ server
  ```
  .
  Note that you'll be responsible for updating manually.
