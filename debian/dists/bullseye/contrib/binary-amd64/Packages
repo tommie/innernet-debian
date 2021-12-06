@@ -1,39 +1,39 @@
 Package: innernet
-Version: 1.5.1
+Version: 1.5.2
 Architecture: amd64
 Vcs-Browser: https://github.com/tonarino/innernet
 Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 7768
-Depends: systemd, libgcc1, libc6
+Installed-Size: 7871
+Depends: systemd, libc6, libgcc1
 Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.5.1_amd64.deb
-Size: 1110756
-SHA256: 2a7b1567eab6f174ed98ba25bc1e066572128b502955efdcaae66413b7b12f0e
-SHA1: 6af7ab11c0fdcfb7197200624fd6e2ed03f95c0f
-MD5sum: 563534b5a0df740defd0f01a7bedb118
+Filename: pool/contrib/i/innernet/innernet_1.5.2_amd64.deb
+Size: 1124976
+SHA256: 7b6b30c72c59bc4cdc6533378af08bf361d71653c9c9bfe8d801f9196553b2cf
+SHA1: 01ac34db586c13f6de8339f78656dad5350ef140
+MD5sum: c4faf6a4413f99a0171529f834b8455a
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.5.1
+Version: 1.5.2
 Architecture: amd64
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 4267
-Depends: systemd, libsqlite3-0, libgcc1, zlib1g, libc6
+Installed-Size: 4280
+Depends: zlib1g, systemd, libc6, libsqlite3-0, libgcc1
 Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.5.1_amd64.deb
-Size: 1220784
-SHA256: bedb4f99ad56da65a970a2c381ff46133517d20f9ab6786b89bb4dcf654d10fd
-SHA1: 09edc0ced5ff0881dcc0ef3b59a0cc8c23c19146
-MD5sum: daf268e8f029762109188802e372e77b
+Filename: pool/contrib/i/innernet-server/innernet-server_1.5.2_amd64.deb
+Size: 1224712
+SHA256: 0e82e9e3b849f178096df08248eac0ad23bb29c28fcf615027a9736091e17b3c
+SHA1: e0658852f22668c68f89d087f05d1fcf632dde90
+MD5sum: 8b3c36db79cd45b5f870c0cbc21c291a
 Description: A server to coordinate innernet networks.
  # innernet
  .
@@ -123,7 +123,7 @@ Description: A server to coordinate innernet networks.
  You can initialize the client with
  .
  ```sh
- sudo inn install /path/to/invitation.toml
+ sudo innernet install /path/to/invitation.toml
  ```
  .
  You can customize the network name if you want to, or leave it at the default.
@@ -135,13 +135,13 @@ Description: A server to coordinate innernet networks.
  things like
  .
  ```sh
- sudo inn list
+ sudo innernet list
  ```
  .
  or
  .
  ```sh
- sudo inn list --tree
+ sudo innernet list --tree
  ```
  .
  to view the current network and all CIDRs visible to this peer.
@@ -158,7 +158,7 @@ Description: A server to coordinate innernet networks.
  CI servers we have.
  .
  ```sh
- sudo inn add-cidr <interface>
+ sudo innernet add-cidr <interface>
  ```
  .
  The name is `ci-servers` and the CIDR is `10.60.64.0/24`, but for this example
@@ -168,7 +168,7 @@ Description: A server to coordinate innernet networks.
  `ci-servers` CIDR.
  .
  ```sh
- sudo inn add-association <interface>
+ sudo innernet add-association <interface>
  ```
  .
  The CLI will ask you to select the two CIDRs you want to associate. That's all
@@ -177,13 +177,13 @@ Description: A server to coordinate innernet networks.
  You can verify the association with
  .
  ```sh
- sudo inn list-associations <interface>
+ sudo innernet list-associations <interface>
  ```
  .
  and associations can be deleted with
  .
  ```sh
- sudo inn delete-associations <interface>
+ sudo innernet delete-associations <interface>
  ```
  .
  ### Enabling/Disabling Peers
@@ -196,13 +196,13 @@ Description: A server to coordinate innernet networks.
  Disable a peer with
  .
  ```su
- sudo inn disable-peer <interface>
+ sudo innernet disable-peer <interface>
  ```
  .
  Or re-enable a peer with
  .
  ```su
- sudo inn enable-peer <interface>
+ sudo innernet enable-peer <interface>
  ```
  .
  ### Specifying a Manual Endpoint
@@ -212,13 +212,13 @@ Description: A server to coordinate innernet networks.
  you may want to set an endpoint explicitly. To set an endpoint, use
  .
  ```sh
- sudo inn override-endpoint <interface>
+ sudo innernet override-endpoint <interface>
  ```
  .
  You can go back to automatic endpoint discovery with
  .
  ```sh
- sudo inn override-endpoint -u <interface>
+ sudo innernet override-endpoint -u <interface>
  ```
  .
  ### Setting the Local WireGuard Listen Port
@@ -226,7 +226,7 @@ Description: A server to coordinate innernet networks.
  If you want to change the port which WireGuard listens on, use
  .
  ```sh
- sudo inn set-listen-port <interface>
+ sudo innernet set-listen-port <interface>
  ```
  .
  or unset the port and use a randomized port with
@@ -318,10 +318,10 @@ Description: A server to coordinate innernet networks.
  .
  ```sh
  # to install innernet:
- cargo install --git https://github.com/tonarino/innernet --tag v1.5.1 client
+ cargo install --git https://github.com/tonarino/innernet --tag v1.5.2 client
  .
  # to install innernet-server:
- cargo install --git https://github.com/tonarino/innernet --tag v1.5.1 server
+ cargo install --git https://github.com/tonarino/innernet --tag v1.5.2 server
  ```
  .
  Note that you'll be responsible for updating manually.
