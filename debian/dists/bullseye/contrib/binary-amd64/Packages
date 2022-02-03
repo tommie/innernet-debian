@@ -1,39 +1,39 @@
 Package: innernet
-Version: 1.5.2
+Version: 1.5.3
 Architecture: amd64
 Vcs-Browser: https://github.com/tonarino/innernet
 Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 7871
-Depends: systemd, libc6, libgcc1
+Installed-Size: 8567
+Depends: libgcc1, systemd, libc6
 Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.5.2_amd64.deb
-Size: 1124976
-SHA256: 7b6b30c72c59bc4cdc6533378af08bf361d71653c9c9bfe8d801f9196553b2cf
-SHA1: 01ac34db586c13f6de8339f78656dad5350ef140
-MD5sum: c4faf6a4413f99a0171529f834b8455a
+Filename: pool/contrib/i/innernet/innernet_1.5.3_amd64.deb
+Size: 1248188
+SHA256: 2a90380bff8c2b903883dac28dd07195ddec539bb9755abd6a31c71688030512
+SHA1: 2e90d61656d00d4b6ca49f3c58007bd28110437c
+MD5sum: 33282741d54fc5086fa6ee8b50c58e87
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.5.2
+Version: 1.5.3
 Architecture: amd64
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 4280
-Depends: zlib1g, systemd, libc6, libsqlite3-0, libgcc1
+Installed-Size: 4611
+Depends: systemd, libsqlite3-0, libc6, zlib1g, libgcc1
 Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.5.2_amd64.deb
-Size: 1224712
-SHA256: 0e82e9e3b849f178096df08248eac0ad23bb29c28fcf615027a9736091e17b3c
-SHA1: e0658852f22668c68f89d087f05d1fcf632dde90
-MD5sum: 8b3c36db79cd45b5f870c0cbc21c291a
+Filename: pool/contrib/i/innernet-server/innernet-server_1.5.3_amd64.deb
+Size: 1343720
+SHA256: 1e2dc24b5e06712a7359a7536f11c3c0987efe161c0b4d097d16f2f1f403cfb3
+SHA1: f5c95bf97099f8c8bd2cbc84647a7a589a490b97
+MD5sum: 537822c9e98851c842c3c4cb8e979a19
 Description: A server to coordinate innernet networks.
  # innernet
  .
@@ -318,10 +318,10 @@ Description: A server to coordinate innernet networks.
  .
  ```sh
  # to install innernet:
- cargo install --git https://github.com/tonarino/innernet --tag v1.5.2 client
+ cargo install --git https://github.com/tonarino/innernet --tag v1.5.3 client
  .
  # to install innernet-server:
- cargo install --git https://github.com/tonarino/innernet --tag v1.5.2 server
+ cargo install --git https://github.com/tonarino/innernet --tag v1.5.3 server
  ```
  .
  Note that you'll be responsible for updating manually.
