@@ -28,7 +28,7 @@ jobs:
         run: |
           wget -O- \
                -H'Accept: application/json' \
-               "https://api.github.com/repos/tonariono/innernet/releases/latest" \
+               "https://api.github.com/repos/tonarino/innernet/releases/latest" \
               | jq -r '(.name + " " + .tarball_url)' \
               | (
                 read release tarball_url
