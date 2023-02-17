@@ -17,6 +17,9 @@ jobs:
     name: Build DEB Packages
     runs-on: ubuntu-latest
 
+    outputs:
+      innernet_release: ${{ steps.download-release.outputs.innernet_release }}
+      
     steps:
       - name: Install Distro Dependencies
         run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev jq liblzma-dev
@@ -121,7 +124,7 @@ jobs:
               git \
                   -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
                   -c 'user.name=github-actions[bot]' \
-                  commit -m "Included release $release_repo@$(cat "$tmpd/latest.json" | jq -r '.name | ltrimstr("v")')."
+                  commit -m "Included release tonarino/innernet@${{ needs.build-deb.outputs.innernet_release }}."
           else
               echo 'No updates to commit.'
           fi
