@@ -32,7 +32,7 @@ jobs:
               | jq -r '(.name + " " + .tarball_url)' \
               | (
                 read release tarball_url
-                wget --header='Accept: application/octet-stream' -O- "$tarball_url" | tar xz
+                wget -O- "$tarball_url" | tar xz
                 echo "innernet_release=$release" >>"$GITHUB_OUTPUT"
               )
 
