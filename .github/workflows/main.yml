@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Install Distro Dependencies
-        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev
+        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev jq liblzma-dev
 
       - name: Download Latest Release
         id: download-release
@@ -30,9 +30,10 @@ jobs:
               | jq -r '(.name + " " + .tarball_url)' \
               | (
                 read release tarball_url
-                wget -O- "$tarball_url" | tar xz
                 echo "innernet_release=$release" >>"$GITHUB_OUTPUT"
-                mv tonarino-innernet-* tonarino-innernet
+                wget -O- "$tarball_url" | tar xz
+                mv tonarino-innernet-*/* .
+                rm -fr tonarino-innernet-*
               )
 
       - name: Install Rust
@@ -43,30 +44,29 @@ jobs:
           override: true
 
       - name: Install cargo-deb
-        working-directory: ./tonarino-innernet
         run: |
           type -p cargo-deb || cargo install cargo-deb
 
-      - name: Set up Rust Cache
+      - name: Set Up Rust Cache
         uses: Swatinem/rust-cache@v1
       
       - name: Build Client DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: --manifest-path tonarino-innernet/Cargo.toml -p client
+          args: -p client
       
       - name: Build Server DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: --manifest-path tonarino-innernet/Cargo.toml -p server
+          args: -p server
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v2
         with:
           name: deb-ubuntu-latest
-          path: tonarino-innernet/target/debian/*.deb
+          path: target/debian/*.deb
           
   release:
     runs-on: ubuntu-latest
@@ -74,9 +74,9 @@ jobs:
 
     steps:
       - name: Install Distro Dependencies
-        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes gpg jq reprepro
+        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes git gpg reprepro
 
-      - name: Set up GPG keys
+      - name: Set Up GPG Keys
         run: |
           mkdir -p -m 0700 "$HOME/.gnupg"
           echo 'pinentry-mode loopback' >>"$HOME/.gnupg/gpg.conf"
@@ -85,14 +85,46 @@ jobs:
           gpgconf --reload gpg-agent
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
           echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset 57F0E65446A301CC19914FD61167922350A2D8B2
-          
-      - name: Get artifacts
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # See https://github.com/marketplace/actions/github-push
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Get Artifacts
         uses: actions/download-artifact@v2
         with:
           name: deb-ubuntu-latest
+          path: ./artifacts
       
+      - name: Import Artifacts
+        run: |
+          cd artifacts
+          for name in *.deb; do
+            reprepro --export=silent-never -b ../debian includedeb unstable "$name"
+          done
+          
       - name: Update Repository
-        run: ./addlatest
+        run: |
+          has_changes() {
+            git status --porcelain "$@" | grep -q .
+          }
+
+          if has_changes debian/pool; then
+              reprepro -b debian export unstable
+          fi
+
+          if has_changes debian/{db,dists,pool}; then
+              git add debian/{db,dists,pool}
+              git \
+                  -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
+                  -c 'user.name=github-actions[bot]' \
+                  commit -m "Included release $release_repo@$(cat "$tmpd/latest.json" | jq -r '.name | ltrimstr("v")')."
+          else
+              echo 'No updates to commit.'
+          fi
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
