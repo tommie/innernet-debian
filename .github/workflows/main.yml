@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Update Repository
 
 # Controls when the workflow will run
@@ -34,6 +32,7 @@ jobs:
                 read release tarball_url
                 wget -O- "$tarball_url" | tar xz
                 echo "innernet_release=$release" >>"$GITHUB_OUTPUT"
+                mv tonarino-innernet-* tonarino-innernet
               )
 
       - name: Install Rust
@@ -44,6 +43,7 @@ jobs:
           override: true
 
       - name: Install cargo-deb
+        working-directory: ./tonarino-innernet
         run: |
           type -p cargo-deb || cargo install cargo-deb
 
@@ -54,19 +54,19 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p client
+          args: --manifest-path tonarino-innernet/Cargo.toml -p client
       
       - name: Build Server DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p server
+          args: --manifest-path tonarino-innernet/Cargo.toml -p server
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v2
         with:
           name: deb-ubuntu-latest
-          path: target/debian/*.deb
+          path: tonarino-innernet/target/debian/*.deb
           
   release:
     runs-on: ubuntu-latest
