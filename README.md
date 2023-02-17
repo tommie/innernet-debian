@@ -1,8 +1,8 @@
 # Unofficial Innernet APT Repository
 
 This is a Debian/Ubuntu APT repository containing `.deb` files from
-https://github.com/tonarino/innernet/releases. The updates are
-automatic and running on a biweekly schedule.
+https://github.com/tonarino/innernet/releases. The updates are fully
+reproducible through GitHub Actions.
 
 For more information, see https://github.com/tonarino/innernet.
 
@@ -10,16 +10,12 @@ For more information, see https://github.com/tonarino/innernet.
 
 ### Adding the Repository
 
-```shell
-$ curl -sS https://tommie.github.io/innernet-debian/repository.key | apt-key add -
-OK
-$ cat >/etc/apt/sources.list.d/innernet.list <<EOF
-deb https://tommie.github.io/innernet-debian/debian unstable contrib
+```sh
+curl -sS https://tommie.github.io/innernet-debian/repository.asc | sudo tee /etc/apt/keyrings/github-tommie-innernet.asc >/dev/null
+cat >/etc/apt/sources.list.d/innernet.list <<EOF
+deb [signed-by=/etc/apt/keyrings/github-tommie-innernet.asc] https://tommie.github.io/innernet-debian/debian unstable contrib
 EOF
-$ apt update
-...
-Get:5 https://tommie.github.io/innernet-debian/debian unstable InRelease [1.729 B]
-...
+apt update
 ```
 
 ### Installing the Server
@@ -28,7 +24,7 @@ This is installed on the coordination server machine. It needs to be
 accessible from all peers.
 
 ```shell
-$ apt install innernet-server
+$ sudo apt install innernet-server
 ```
 
 ### Installing the Peer Client
@@ -36,7 +32,7 @@ $ apt install innernet-server
 This is installed on all peers.
 
 ```shell
-$ apt install innernet
+$ sudo apt install innernet
 ```
 
 ## License
