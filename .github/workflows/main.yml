@@ -63,8 +63,8 @@ jobs:
         id: show-output
         run: |
           echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
-          echo "* `innernet_release=${{ steps.check-latest-release.outputs.innernet_release }}` >>"$GITHUB_STEP_SUMMARY"
-          echo "* `new_release_exists=${{ steps.check-repo-release.outputs.new_release_exists }}` >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`innernet_release=${{ steps.check-latest-release.outputs.innernet_release }}\` >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`new_release_exists=${{ steps.check-repo-release.outputs.new_release_exists }}\` >>"$GITHUB_STEP_SUMMARY"
 
   build-deb:
     name: Build DEB Packages
