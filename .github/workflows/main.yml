@@ -55,6 +55,12 @@ jobs:
           else
             echo "new_release_exists=true" >>"$GITHUB_OUTPUT"
           fi
+          
+      - name: Show Output
+        id: show-output
+        run: |
+          echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
+          sed -e 's;^.*;* `\0`;' "$GITHUB_OUTPUT" >>"$GITHUB_STEP_SUMMARY"
 
   build-deb:
     name: Build DEB Packages
