@@ -50,7 +50,8 @@ jobs:
       - name: Check Repo Release
         id: check-repo-release
         run: |
-          indexed=$(reprepro -b debian --list-format '${version}\n' listmatched unstable innernet)
+          # Note the leading v to match the Git tag.
+          indexed=v$(reprepro -b debian --list-format '${version}\n' listmatched unstable innernet)
           echo "Repo release: $indexed"
           if [ "x$indexed" = "x${{ steps.check-latest-release.outputs.innernet_release }}" ]; then
             echo "new_release_exists=false" >>"$GITHUB_OUTPUT"
