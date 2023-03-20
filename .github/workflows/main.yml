@@ -39,6 +39,13 @@ jobs:
                 echo "tarball_url=$tarball_url" >>"$GITHUB_OUTPUT"
               )
 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # See https://github.com/marketplace/actions/github-push
+          persist-credentials: false
+          fetch-depth: 0
+
       - name: Check Repo Release
         id: check-repo-release
         run: |
