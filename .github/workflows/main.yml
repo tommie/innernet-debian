@@ -37,6 +37,7 @@ jobs:
                 read release tarball_url
                 echo "innernet_release=$release" >>"$GITHUB_OUTPUT"
                 echo "tarball_url=$tarball_url" >>"$GITHUB_OUTPUT"
+                echo "Latest release: $release"
               )
 
       - name: Checkout
@@ -50,6 +51,7 @@ jobs:
         id: check-repo-release
         run: |
           indexed=$(reprepro -b debian --list-format '${version}\n' listmatched unstable innernet)
+          echo "Repo release: $indexed"
           if [ "x$indexed" = "x${{ steps.check-latest-release.outputs.innernet_release }}" ]; then
             echo "new_release_exists=false" >>"$GITHUB_OUTPUT"
           else
@@ -60,7 +62,8 @@ jobs:
         id: show-output
         run: |
           echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
-          sed -e 's;^.*;* `\0`;' "$GITHUB_OUTPUT" >>"$GITHUB_STEP_SUMMARY"
+          echo "* `innernet_release=${{ steps.check-latest-release.outputs.innernet_release }}` >>"$GITHUB_STEP_SUMMARY"
+          echo "* `new_release_exists=${{ steps.check-repo-release.outputs.new_release_exists }}` >>"$GITHUB_STEP_SUMMARY"
 
   build-deb:
     name: Build DEB Packages
