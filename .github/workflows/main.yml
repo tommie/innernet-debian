@@ -15,16 +15,29 @@ on:
 jobs:
   check-upstream:
     name: Check for a new releases upstream
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+        - ubuntu-22.04
+        - ubuntu-20.04
 
     outputs:
+      ubuntu_release: ${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}
       innernet_release: ${{ steps.check-latest-release.outputs.innernet_release }}
+      innernet_version: ${{ steps.check-latest-release.outputs.innernet_version }}
       tarball_url: ${{ steps.check-latest-release.outputs.tarball_url }}
       new_release_exists: ${{ steps.check-repo-release.outputs.new_release_exists }}
-      
+
     steps:
       - name: Install Distro Dependencies
         run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes jq liblzma-dev reprepro
+
+      - name: Set Ubuntu Release Name
+        id: set-ubuntu-release-name
+        run: |
+          echo "ubuntu_release=$(lsb_release --short --codename)" >>"$GITHUB_OUTPUT"
 
       - name: Check Latest Release
         id: check-latest-release
@@ -36,6 +49,7 @@ jobs:
               | (
                 read release tarball_url
                 echo "innernet_release=$release" >>"$GITHUB_OUTPUT"
+                echo "innernet_version=${release#v}" >>"$GITHUB_OUTPUT"
                 echo "tarball_url=$tarball_url" >>"$GITHUB_OUTPUT"
                 echo "Latest release: $release"
               )
@@ -51,26 +65,34 @@ jobs:
         id: check-repo-release
         run: |
           # Note the leading v to match the Git tag.
-          indexed=v$(reprepro -b debian --list-format '${version}\n' listmatched unstable innernet)
+          indexed=v$(reprepro -b debian --list-format '${version}\n' listmatched "${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}" innernet)
           echo "Repo release: $indexed"
           if [ "x$indexed" = "x${{ steps.check-latest-release.outputs.innernet_release }}" ]; then
             echo "new_release_exists=false" >>"$GITHUB_OUTPUT"
           else
             echo "new_release_exists=true" >>"$GITHUB_OUTPUT"
           fi
-          
+
       - name: Show Output
         id: show-output
         run: |
           echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`ubuntu_release=${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}\`" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`innernet_release=${{ steps.check-latest-release.outputs.innernet_release }}\`" >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`innernet_version=${{ steps.check-latest-release.outputs.innernet_version }}\`" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`new_release_exists=${{ steps.check-repo-release.outputs.new_release_exists }}\`" >>"$GITHUB_STEP_SUMMARY"
 
   build-deb:
     name: Build DEB Packages
-    runs-on: ubuntu-latest
     needs: [check-upstream]
     if: ${{ needs.check-upstream.outputs.new_release_exists == 'true' }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+        - ubuntu-22.04
+        - ubuntu-20.04
 
     steps:
       - name: Install Distro Dependencies
@@ -96,29 +118,39 @@ jobs:
 
       - name: Set Up Rust Cache
         uses: Swatinem/rust-cache@v1
-      
+        with:
+          key: ${{ matrix.os }}
+
       - name: Build Client DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p client
-      
+          args: -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ needs.check-upstream.outputs.ubuntu_release }}
+
       - name: Build Server DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p server
+          args: -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ needs.check-upstream.outputs.ubuntu_release }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v2
         with:
-          name: deb-ubuntu-latest
+          name: deb-ubuntu-${{ needs.check-upstream.outputs.ubuntu_release }}
           path: target/debian/*.deb
-          
+
   release:
-    runs-on: ubuntu-latest
     needs: [check-upstream, build-deb]
     if: ${{ needs.check-upstream.outputs.new_release_exists == 'true' }}
+    # Avoid push conflicts.
+    concurrency: update_repository
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+        - ubuntu-22.04
+        - ubuntu-20.04
 
     steps:
       - name: Install Distro Dependencies
@@ -144,16 +176,16 @@ jobs:
       - name: Get Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: deb-ubuntu-latest
+          name: deb-ubuntu-${{ needs.check-upstream.outputs.ubuntu_release }}
           path: ./artifacts
-      
+
       - name: Import Artifacts
         run: |
           cd artifacts
           for name in *.deb; do
-            reprepro --export=silent-never -b ../debian includedeb unstable "$name"
+            reprepro --export=silent-never -b ../debian includedeb "${{ needs.check-upstream.outputs.ubuntu_release }}" "$name"
           done
-          
+
       - name: Update Repository
         run: |
           has_changes() {
@@ -161,7 +193,7 @@ jobs:
           }
 
           if has_changes debian/pool; then
-              reprepro -b debian export unstable
+              reprepro -b debian export "${{ needs.check-upstream.outputs.ubuntu_release }}"
           fi
 
           if has_changes debian/{db,dists,pool}; then
@@ -169,13 +201,14 @@ jobs:
               git \
                   -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
                   -c 'user.name=github-actions[bot]' \
-                  commit -m "Included release tonarino/innernet@${{ needs.check-upstream.outputs.innernet_release }}."
+                  commit -m "Included release tonarino/innernet@${{ needs.check-upstream.outputs.innernet_release }} in ${{ needs.check-upstream.outputs.ubuntu_release }}."
           else
               echo 'No updates to commit.'
           fi
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
+        if: github.ref_name == 'main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
