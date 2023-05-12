@@ -1,0 +1,36 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: Unofficial Innernet Debian repository
+Label: innernet-debian
+Codename: focal
+Date: Fri, 12 May 2023 08:20:16 UTC
+Architectures: amd64
+Components: contrib
+Description: APT repository for https://github.com/tonarino/innernet/.
+MD5Sum:
+ f6d27f7a8871bdebe4280c9c3ebc71d4 11445 contrib/binary-amd64/Packages
+ 22549a47e28a28b12a2baa1da439285e 4570 contrib/binary-amd64/Packages.gz
+ 77dc2b012f45038d5be68f81d464ee44 179 contrib/binary-amd64/Release
+SHA1:
+ e3facde4370461820390d32d5f4fea9959ee883c 11445 contrib/binary-amd64/Packages
+ 395685ad6722e2ecd8321710289cc69599b2baea 4570 contrib/binary-amd64/Packages.gz
+ a4f6bbfd6fe4ab5a01909278c4e13b05d6b06f13 179 contrib/binary-amd64/Release
+SHA256:
+ f76c4cec4b313891b8311ee611dc0e329dcb825ab87900b1d1d665061a54f030 11445 contrib/binary-amd64/Packages
+ 1c068e26dd5f42fb95fb3def07e810fb11381f92c8cf59fc35751c3c0c1ab378 4570 contrib/binary-amd64/Packages.gz
+ 67b3f0e511499d8b794eaf1524cea47d2263a1e8e43445c60f311dbef9a50e9c 179 contrib/binary-amd64/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmRd9sEACgkQZYKNdDzu
+i2n8kwv+NbBk8JtOc+12F1slV4Wh2PiBfI7xp6O4aDUBmLoNbl0jr8VoyYVVGusN
+rI049w1/1LbD3aJiaza4xKx77xCudN/ZgvnwfmzDcXVrRifBTfOI4WWBzr7SIi+c
+qz7fFYNro7OhNCcxqnzAHJWmvm5Ks3+EoBWFCCIoat+dXL7fGFNzRtc5h3Yq3Z+D
+1MR5rIs10TnslwyuQSFGkWH8ODAtiHw7VgKkerxj5IbjWodWo5JCEmzoXd0xF2g3
+1USRoxruqpm24E7lF29ihDV+QKVM8xfql+kBnIqDizYAipOkTOzm5sqA9C3VUr0F
+cDOHNw/vUvo8oUno/yQAOnOVfx+VMcFZERZ9jX1thEV1Iv2K+6KG63BkVyiP//pl
+zO2qjaN2uRkXV0u9hZLKwhSvQSJPQXoXQ6H5t9mgfi39PYBbBgsh7putHCI6BAmV
+6syhtQOQSabZhkiPQIkUgLYb75AVAQLHBQTvvJDHEVYuj1UgtaCdfLhgAOCexdkj
+WjGQ5z1W
+=iS48
+-----END PGP SIGNATURE-----
