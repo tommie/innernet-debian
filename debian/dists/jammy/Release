@@ -1,0 +1,19 @@
+Origin: Unofficial Innernet Debian repository
+Label: innernet-debian
+Codename: jammy
+Date: Fri, 12 May 2023 14:35:13 UTC
+Architectures: amd64
+Components: contrib
+Description: APT repository for https://github.com/tonarino/innernet/.
+MD5Sum:
+ a791101bd1252e7eed9e2639c95ca240 11445 contrib/binary-amd64/Packages
+ bfc99a59ee0ab62e4810978c80eb2832 4577 contrib/binary-amd64/Packages.gz
+ 77dc2b012f45038d5be68f81d464ee44 179 contrib/binary-amd64/Release
+SHA1:
+ 8d4f806ac1a50d95fcf98a2228266a2dcb21a0fa 11445 contrib/binary-amd64/Packages
+ b6182f34ae185fea6e544a6b671aa149d8b143c0 4577 contrib/binary-amd64/Packages.gz
+ a4f6bbfd6fe4ab5a01909278c4e13b05d6b06f13 179 contrib/binary-amd64/Release
+SHA256:
+ fea11b784a297ed5fbaaf79476a3c27609b15c6a077401b7f388a1d232d42bcd 11445 contrib/binary-amd64/Packages
+ 087f4de1d847f4b657e31baaf91cca2c8e5af7d2e828aa20053386ef5397ef36 4577 contrib/binary-amd64/Packages.gz
+ 67b3f0e511499d8b794eaf1524cea47d2263a1e8e43445c60f311dbef9a50e9c 179 contrib/binary-amd64/Release
