@@ -66,8 +66,9 @@ jobs:
         run: |
           # Note the leading v to match the Git tag.
           indexed=v$(reprepro -b debian --list-format '${version}\n' listmatched "${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}" innernet)
+          upstream="${{ steps.check-latest-release.outputs.innernet_release }}-0ubuntu0~${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}"
           echo "Repo release: $indexed"
-          if [ "x$indexed" = "x${{ steps.check-latest-release.outputs.innernet_release }}" ]; then
+          if [ "x$indexed" = "x$upstream" ]; then
             echo "new_release_exists=false" >>"$GITHUB_OUTPUT"
           else
             echo "new_release_exists=true" >>"$GITHUB_OUTPUT"
