@@ -15,16 +15,9 @@ on:
 jobs:
   check-upstream:
     name: Check for a new releases upstream
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os:
-        - ubuntu-22.04
-        - ubuntu-20.04
+    runs-on: ubuntu-latest
 
     outputs:
-      ubuntu_release: ${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}
       innernet_release: ${{ steps.check-latest-release.outputs.innernet_release }}
       innernet_version: ${{ steps.check-latest-release.outputs.innernet_version }}
       tarball_url: ${{ steps.check-latest-release.outputs.tarball_url }}
@@ -64,21 +57,24 @@ jobs:
       - name: Check Repo Release
         id: check-repo-release
         run: |
-          # Note the leading v to match the Git tag.
-          indexed=v$(reprepro -b debian --list-format '${version}\n' listmatched "${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}" innernet)
-          upstream="${{ steps.check-latest-release.outputs.innernet_release }}-0ubuntu0~${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}"
-          echo "Repo release: $indexed"
-          if [ "x$indexed" = "x$upstream" ]; then
-            echo "new_release_exists=false" >>"$GITHUB_OUTPUT"
-          else
-            echo "new_release_exists=true" >>"$GITHUB_OUTPUT"
-          fi
+          new_release_exists=
+          for ver_codename in ubuntu-22.04/jammy ubuntu-20.04/focal; do
+            ver=${ver_codename%/*}
+            codename=${ver_codename##*/}
+            # Note the leading v to match the Git tag.
+            indexed=v$(reprepro -b debian --list-format '${version}\n' listmatched "$codename" innernet)
+            upstream="${{ steps.check-latest-release.outputs.innernet_release }}-0ubuntu0~$codename"
+            echo "Repo release in $codename: $indexed"
+            if [ "x$indexed" != "x$upstream" ]; then
+              new_release_exists="${new_release_exists:+$new_release_exists }$ver"
+            fi
+          done
+          echo "new_release_exists=$new_release_exists" >>"$GITHUB_OUTPUT"
 
       - name: Show Output
         id: show-output
         run: |
           echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
-          echo "* \`ubuntu_release=${{ steps.set-ubuntu-release-name.outputs.ubuntu_release }}\`" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`innernet_release=${{ steps.check-latest-release.outputs.innernet_release }}\`" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`innernet_version=${{ steps.check-latest-release.outputs.innernet_version }}\`" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`new_release_exists=${{ steps.check-repo-release.outputs.new_release_exists }}\`" >>"$GITHUB_STEP_SUMMARY"
@@ -86,7 +82,7 @@ jobs:
   build-deb:
     name: Build DEB Packages
     needs: [check-upstream]
-    if: ${{ needs.check-upstream.outputs.new_release_exists == 'true' }}
+    if: ${{ contains(needs.check-upstream.outputs.new_release_exists, matrix.os) }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -142,7 +138,7 @@ jobs:
 
   release:
     needs: [check-upstream, build-deb]
-    if: ${{ needs.check-upstream.outputs.new_release_exists == 'true' }}
+    if: ${{ contains(needs.check-upstream.outputs.new_release_exists, matrix.os) }}
     # Avoid push conflicts.
     concurrency: update_repository
     runs-on: ${{ matrix.os }}
