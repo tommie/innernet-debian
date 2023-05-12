@@ -92,6 +92,19 @@ jobs:
       - name: Install Distro Dependencies
         run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev
 
+      - name: Translate Codename
+        id: translate-codename
+        run: |
+          case "${{ matrix.os }}" in
+          22.04) codename=jammy ;;
+          20.04) codename=focal ;;
+          *)
+            echo "Unknown OS: ${{ matrix.os }}" >&2
+            exit 1
+            ;;
+          esac
+          echo "codename=$codename" >>"$GITHUB_OUTPUT"
+
       - name: Download Latest Release
         id: download-release
         run: |
@@ -119,19 +132,25 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ needs.check-upstream.outputs.ubuntu_release }}
+          args: -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.translate-codename.outputs.codename }}
 
       - name: Build Server DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ needs.check-upstream.outputs.ubuntu_release }}
+          args: -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.translate-codename.outputs.codename }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v3
         with:
-          name: deb-ubuntu-${{ needs.check-upstream.outputs.ubuntu_release }}
+          name: deb-${{ matrix.os }}
           path: target/debian/*.deb
+
+      - name: Show Output
+        id: show-output
+        run: |
+          echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`codename=${{ steps.translate-codename.outputs.codename }}\`" >>"$GITHUB_STEP_SUMMARY"
 
   release:
     needs: [check-upstream, build-deb]
@@ -157,6 +176,19 @@ jobs:
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
           echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset 57F0E65446A301CC19914FD61167922350A2D8B2
 
+      - name: Translate Codename
+        id: translate-codename
+        run: |
+          case "${{ matrix.os }}" in
+          22.04) codename=jammy ;;
+          20.04) codename=focal ;;
+          *)
+            echo "Unknown OS: ${{ matrix.os }}" >&2
+            exit 1
+            ;;
+          esac
+          echo "codename=$codename" >>"$GITHUB_OUTPUT"
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -164,17 +196,17 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - name: Get Artifacts
+      - name: Download DEBs
         uses: actions/download-artifact@v3
         with:
-          name: deb-ubuntu-${{ needs.check-upstream.outputs.ubuntu_release }}
+          name: deb-${{ matrix.os }}
           path: ./artifacts
 
-      - name: Import Artifacts
+      - name: Import DEBs
         run: |
           cd artifacts
           for name in *.deb; do
-            reprepro --export=silent-never -b ../debian includedeb "${{ needs.check-upstream.outputs.ubuntu_release }}" "$name"
+            reprepro --export=silent-never -b ../debian includedeb "${{ steps.translate-codename.outputs.codename }}" "$name"
           done
 
       - name: Update Repository
@@ -184,7 +216,7 @@ jobs:
           }
 
           if has_changes debian/pool; then
-              reprepro -b debian export "${{ needs.check-upstream.outputs.ubuntu_release }}"
+              reprepro -b debian export "${{ steps.translate-codename.outputs.codename }}"
           fi
 
           if has_changes debian/{db,dists,pool}; then
@@ -192,7 +224,7 @@ jobs:
               git \
                   -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
                   -c 'user.name=github-actions[bot]' \
-                  commit -m "Included release tonarino/innernet@${{ needs.check-upstream.outputs.innernet_release }} in ${{ needs.check-upstream.outputs.ubuntu_release }}."
+                  commit -m "Included release tonarino/innernet@${{ needs.check-upstream.outputs.innernet_release }} in ${{ steps.translate-codename.outputs.codename }}."
           else
               echo 'No updates to commit.'
           fi
