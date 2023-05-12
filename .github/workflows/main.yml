@@ -66,10 +66,10 @@ jobs:
             upstream="${{ steps.check-latest-release.outputs.innernet_release }}-0ubuntu0~$codename"
             echo "Repo release in $codename: $indexed"
             if [ "x$indexed" != "x$upstream" ]; then
-              new_release_exists="${new_release_exists:+$new_release_exists }$ver"
+              new_release_exists="${new_release_exists:+$new_release_exists,}\"$ver\""
             fi
           done
-          echo "new_release_exists=$new_release_exists" >>"$GITHUB_OUTPUT"
+          echo "new_release_exists=[$new_release_exists]" >>"$GITHUB_OUTPUT"
 
       - name: Show Output
         id: show-output
@@ -82,14 +82,11 @@ jobs:
   build-deb:
     name: Build DEB Packages
     needs: [check-upstream]
-    if: contains(needs.check-upstream.outputs.new_release_exists, matrix.os)
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os:
-        - ubuntu-22.04
-        - ubuntu-20.04
+        os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
 
     steps:
       - name: Install Distro Dependencies
@@ -138,16 +135,13 @@ jobs:
 
   release:
     needs: [check-upstream, build-deb]
-    if: contains(needs.check-upstream.outputs.new_release_exists, matrix.os)
     # Avoid push conflicts.
     concurrency: update_repository
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os:
-        - ubuntu-22.04
-        - ubuntu-20.04
+        os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
 
     steps:
       - name: Install Distro Dependencies
