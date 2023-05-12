@@ -96,8 +96,8 @@ jobs:
         id: translate-codename
         run: |
           case "${{ matrix.os }}" in
-          22.04) codename=jammy ;;
-          20.04) codename=focal ;;
+          ubuntu-22.04) codename=jammy ;;
+          ubuntu-20.04) codename=focal ;;
           *)
             echo "Unknown OS: ${{ matrix.os }}" >&2
             exit 1
@@ -180,8 +180,8 @@ jobs:
         id: translate-codename
         run: |
           case "${{ matrix.os }}" in
-          22.04) codename=jammy ;;
-          20.04) codename=focal ;;
+          ubuntu-22.04) codename=jammy ;;
+          ubuntu-20.04) codename=focal ;;
           *)
             echo "Unknown OS: ${{ matrix.os }}" >&2
             exit 1
