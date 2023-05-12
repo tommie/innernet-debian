@@ -55,7 +55,7 @@ jobs:
               )
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # See https://github.com/marketplace/actions/github-push
           persist-credentials: false
@@ -134,7 +134,7 @@ jobs:
           args: -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ needs.check-upstream.outputs.ubuntu_release }}
 
       - name: Upload DEBs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: deb-ubuntu-${{ needs.check-upstream.outputs.ubuntu_release }}
           path: target/debian/*.deb
@@ -167,14 +167,14 @@ jobs:
           echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset 57F0E65446A301CC19914FD61167922350A2D8B2
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # See https://github.com/marketplace/actions/github-push
           persist-credentials: false
           fetch-depth: 0
 
       - name: Get Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: deb-ubuntu-${{ needs.check-upstream.outputs.ubuntu_release }}
           path: ./artifacts
