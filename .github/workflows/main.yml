@@ -58,7 +58,7 @@ jobs:
         id: check-repo-release
         run: |
           new_release_exists=
-          for ver_codename in 22.04/jammy 20.04/focal; do
+          for ver_codename in ubuntu-22.04/jammy ubuntu-20.04/focal; do
             ver=${ver_codename%/*}
             codename=${ver_codename##*/}
             # Note the leading v to match the Git tag.
@@ -82,7 +82,7 @@ jobs:
   build-deb:
     name: Build DEB Packages
     needs: [check-upstream]
-    if: contains('${{ needs.check-upstream.outputs.new_release_exists }}', 'ubuntu-${{ matrix.os }}')
+    if: contains(needs.check-upstream.outputs.new_release_exists, matrix.os)
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -138,7 +138,7 @@ jobs:
 
   release:
     needs: [check-upstream, build-deb]
-    if: contains('${{ needs.check-upstream.outputs.new_release_exists }}', 'ubuntu-${{ matrix.os }}')
+    if: contains(needs.check-upstream.outputs.new_release_exists, matrix.os)
     # Avoid push conflicts.
     concurrency: update_repository
     runs-on: ${{ matrix.os }}
