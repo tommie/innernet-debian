@@ -19,6 +19,9 @@ apt update
 ```
 
 See [`dists/`](https://github.com/tommie/innernet-debian/tree/main/debian/dists) for supported codenames.
+Debian 11 (Bullseye) is served by `focal`.
+There is a symlink in place to allow `bullseye`, which will cause APT to warn that the codenames missmatch.
+In the end, both names work.
 
 ### Installing the Server
 
