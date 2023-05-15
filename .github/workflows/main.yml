@@ -157,7 +157,7 @@ jobs:
     needs: [check-upstream, build-deb]
     # Avoid push conflicts.
     concurrency: update_repository
-    if: "matrix.os[0] != null"
+    if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
     runs-on: ${{ matrix.os }}
 
     strategy:
