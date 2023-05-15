@@ -82,7 +82,7 @@ jobs:
   build-deb:
     name: Build DEB Packages
     needs: [check-upstream]
-    if: "matrix.os[0] != null"
+    if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
     runs-on: ${{ matrix.os }}
 
     strategy:
