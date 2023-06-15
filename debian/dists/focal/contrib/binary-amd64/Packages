@@ -1,41 +1,48 @@
 Package: innernet
-Version: 1.5.5-0ubuntu0~focal
+Version: 1.6.0-0ubuntu0~focal
 Architecture: amd64
 Vcs-Browser: https://github.com/tonarino/innernet
 Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 5759
-Depends: libc6, libgcc1, systemd
+Installed-Size: 3221
+Depends: systemd, libgcc1, libc6
 Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.5.5-0ubuntu0~focal_amd64.deb
-Size: 939640
-SHA256: c615d99731d6f399b783f6239370546b1065817fd7f070038315c111d3cec838
-SHA1: 2cbd17453ceda778f88e1841a51e7c0ce810638f
-MD5sum: 6fb3ff388df704868faf85bcfd5cc010
+Filename: pool/contrib/i/innernet/innernet_1.6.0-0ubuntu0~focal_amd64.deb
+Size: 1017076
+SHA256: cd26fa15089a95bf69874116e89469f75a8d01b9fb344c7706a8a36fa804e0b4
+SHA1: c2699d37af2cffea4b19282477acf2b1ef367c21
+MD5sum: 4399b78eef1bbf075041fcb12c03fab8
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.5.5-0ubuntu0~focal
+Version: 1.6.0-0ubuntu0~focal
 Architecture: amd64
+Vcs-Browser: https://github.com/tonarino/innernet
+Vcs-Git: https://github.com/tonarino/innernet
+Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 3929
-Depends: systemd, libsqlite3-0, libc6, zlib1g, libgcc1
+Installed-Size: 4214
+Depends: libgcc1, zlib1g, libsqlite3-0, libc6, systemd
 Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.5.5-0ubuntu0~focal_amd64.deb
-Size: 1418744
-SHA256: 2dba733dd4f6ce35ca7785992f318131aa9e9d6e9cb7d4693fa81ab7c98dd78b
-SHA1: 9bbc84244d0dd6f4dc46bfb4c4883e02e52cba69
-MD5sum: 6891156125ffe8218fc85a4af683ed03
+Filename: pool/contrib/i/innernet-server/innernet-server_1.6.0-0ubuntu0~focal_amd64.deb
+Size: 1499216
+SHA256: 539e7a438869dcb5b9a9bf2f2fa76afb1d226584fd2cd011a3c5f8dd8c4bb429
+SHA1: b4a6e87898a68666207fdaa08cd02b6b6b7b9bc9
+MD5sum: cbb3a19ddde8af07ac8cafb3b8cae132
 Description: A server to coordinate innernet networks.
  # innernet
+ .
+ [![Actively
+ Maintained](https://img.shields.io/badge/Maintenance%20Level-Actively%20Maintained-green.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
+ [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tonarino/innernet/blob/master/LICENSE)
  .
  A private network system that uses [WireGuard](https://wireguard.com) under the
  hood. See the [announcement blog
@@ -299,14 +306,16 @@ Description: A server to coordinate innernet networks.
  pacman -S innernet
  ```
  .
- ### Ubuntu
+ ### Debian and Ubuntu
  .
- Fetch the appropriate `.deb` packages from
- https://github.com/tonarino/innernet/releases and install with
+ [**@tommie**](https://github.com/tommie) is kindly providing Debian/Ubuntu
+ innernet builds in the https://github.com/tommie/innernet-debian repository.
  .
- ```sh
- sudo apt install ./innernet*.deb
- ```
+ ### Other Linux Distributions
+ .
+ We're looking for volunteers who are able to set up external builds for popular
+ distributions. Please see issue
+ [#203](https://github.com/tonarino/innernet/issues/203).
  .
  ### macOS
  .
@@ -318,10 +327,10 @@ Description: A server to coordinate innernet networks.
  .
  ```sh
  # to install innernet:
- cargo install --git https://github.com/tonarino/innernet --tag v1.5.5 client
+ cargo install --git https://github.com/tonarino/innernet --tag v1.6.0 client
  .
  # to install innernet-server:
- cargo install --git https://github.com/tonarino/innernet --tag v1.5.5 server
+ cargo install --git https://github.com/tonarino/innernet --tag v1.6.0 server
  ```
  .
  Note that you'll be responsible for updating manually.
@@ -359,11 +368,11 @@ Description: A server to coordinate innernet networks.
  .
  ### Releases
  .
- 1. Run `cargo release [--dry-run] [minor|major|patch|...]` to automatically
- bump the crates appropriately.
- 2. Create a new git tag (ex. `v0.6.0`).
- 3. Push (with tags) to the repo.
+ Please run the release script from a Linux machine: generated shell completions
+ depend on available wireguard backends and Mac doesn't support the `kernel`
+ backend. 
  .
- innernet uses GitHub Actions to automatically produce a debian package for the
- [releases page](https://github.com/tonarino/innernet/releases).
+ 1. Fetch and check-out the `main` branch.
+ 2. Run `./release.sh [patch|major|minor|rc]`
+ 3. Push the `main` branch and the created tag to the repo.
 
