@@ -241,6 +241,8 @@ jobs:
       # GitHub shows an inconsistent delay with pulling right after pushing. Since we push
       # for multiple distributions, we have to make sure the next checkout doesn't conflict
       # with the current.
-      - name: Delay 30 seconds for pushed changes to be visible
-        run: sleep 30s
+      #
+      # TODO: merge artefacts so we don't need one Release job per distribution.
+      - name: Delay 1m for pushed changes to be visible
+        run: sleep 1m
         shell: bash
