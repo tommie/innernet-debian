@@ -57,19 +57,21 @@ jobs:
       - name: Check Repo Release
         id: check-repo-release
         run: |
-          new_release_exists=
-          for ver_codename in ubuntu-22.04/jammy ubuntu-20.04/focal; do
-            ver=${ver_codename%/*}
-            codename=${ver_codename##*/}
-            # Note the leading v to match the Git tag.
-            indexed=v$(reprepro -b debian --list-format '${version}\n' listmatched "$codename" innernet)
-            upstream="${{ steps.check-latest-release.outputs.innernet_release }}-0ubuntu0~$codename"
-            echo "Repo release in $codename: $indexed"
-            if [ "x$indexed" != "x$upstream" ]; then
-              new_release_exists="${new_release_exists:+$new_release_exists,}\"$ver\""
-            fi
+          declare -a new_release_exists
+          for arch in amd64 armhf arm64; do
+            for ver_codename in ubuntu-22.04/jammy ubuntu-20.04/focal; do
+              ver=${ver_codename%/*}
+              codename=${ver_codename##*/}
+              # Note the leading v to match the Git tag.
+              indexed=v$(reprepro -A "$arch" -b debian --list-format '${version}\n' listmatched "$codename" innernet)
+              upstream="${{ steps.check-latest-release.outputs.innernet_release }}-0ubuntu0~$codename"
+              echo "Repo release in $codename/$arch: $indexed"
+              if [ "x$indexed" != "x$upstream" ]; then
+                new_release_exists+=( "\"$ver\"" )
+              fi
+            done
           done
-          echo "new_release_exists=[$new_release_exists]" >>"$GITHUB_OUTPUT"
+          (IFS=$'\n' ; echo "new_release_exists=[$(echo -n "${new_release_exists[*]}" | sort -u | tr '\n' , | sed -e 's;,$;;')]" >>"$GITHUB_OUTPUT")
 
       - name: Show Output
         id: show-output
@@ -77,10 +79,11 @@ jobs:
           echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`innernet_release=${{ steps.check-latest-release.outputs.innernet_release }}\`" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`innernet_version=${{ steps.check-latest-release.outputs.innernet_version }}\`" >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`tarball_url=${{ steps.check-latest-release.outputs.tarball_url }}\`" >>"$GITHUB_STEP_SUMMARY"
           echo "* \`new_release_exists=${{ steps.check-repo-release.outputs.new_release_exists }}\`" >>"$GITHUB_STEP_SUMMARY"
 
   build-deb:
-    name: Build DEB Packages
+    name: Build DEB Packages ${{ matrix.os }}/${{ matrix.arch }}
     needs: [check-upstream]
     if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
     runs-on: ${{ matrix.os }}
@@ -88,23 +91,16 @@ jobs:
     strategy:
       matrix:
         os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
+        include:
+          - arch: amd64
+          - os: ubuntu-22.04
+            codename: jammy
+          - os: ubuntu-20.04
+            codename: focal
 
     steps:
       - name: Install Distro Dependencies
         run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev
-
-      - name: Translate Codename
-        id: translate-codename
-        run: |
-          case "${{ matrix.os }}" in
-          ubuntu-22.04) codename=jammy ;;
-          ubuntu-20.04) codename=focal ;;
-          *)
-            echo "Unknown OS: ${{ matrix.os }}" >&2
-            exit 1
-            ;;
-          esac
-          echo "codename=$codename" >>"$GITHUB_OUTPUT"
 
       - name: Download Latest Release
         id: download-release
@@ -122,47 +118,184 @@ jobs:
 
       - name: Install cargo-deb
         run: |
-          type -p cargo-deb || cargo install cargo-deb
+          type -p cargo-deb >/dev/null || cargo install cargo-deb
 
       - name: Set Up Rust Cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
         with:
-          key: ${{ matrix.os }}
+          key: ${{ matrix.os }}-amd64
 
       - name: Build Client DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.translate-codename.outputs.codename }}
+          args: -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
 
       - name: Build Server DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.translate-codename.outputs.codename }}
+          args: -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v3
         with:
-          name: deb-${{ matrix.os }}
+          # Syntax: https://github.com/actions/upload-artifact/issues/22
+          name: deb ${{ matrix.codename }} ${{ matrix.arch }}
           path: target/debian/*.deb
 
-      - name: Show Output
-        id: show-output
-        run: |
-          echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
-          echo "* \`codename=${{ steps.translate-codename.outputs.codename }}\`" >>"$GITHUB_STEP_SUMMARY"
-
-  release:
-    needs: [check-upstream, build-deb]
-    # Avoid push conflicts.
-    concurrency: update_repository
+  build-cross-deb:
+    name: Build DEB Packages ${{ matrix.os }}/${{ matrix.arch }} (Cross-Compiled)
+    needs: [check-upstream]
     if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
+        arch:
+          - armhf
+          - arm64
+        include:
+          - os: ubuntu-22.04
+            codename: jammy
+          - os: ubuntu-20.04
+            codename: focal
+          - arch: armhf
+            target: armv7-unknown-linux-gnueabihf
+            target_prefix: arm-linux-gnueabihf-
+          - arch: arm64
+            target: aarch64-unknown-linux-gnu
+            target_prefix: aarch64-linux-gnu-
+
+    steps:
+      - name: Install Distro Dependencies
+        run: |
+          sudo dpkg --add-architecture "${{ matrix.arch }}"
+          sudo sed -i -e 's;^\(deb\(-src\)\?\)\(\s\+\)\(https\?://\(azure\.archive\.ubuntu\.com\|archive\.ubuntu\.com\|security\.ubuntu\.com\)/\);\1\3[arch=amd64,i386]\3\4;' /etc/apt/sources.list /etc/apt/sources.list.d/*.list
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }} main universe" | sudo tee /etc/apt/sources.list.d/ports.list >/dev/null
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-security main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-updates main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
+          sudo apt-get update
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev pkg-config build-essential "crossbuild-essential-${{ matrix.arch }}" libsqlite3-dev:"${{ matrix.arch }}"
+
+      - name: Set Up Environment
+        id: setup-env
+        run: |
+          echo "CC_${{ matrix.target }}=${{ matrix.target_prefix }}gcc" >>"$GITHUB_ENV"
+          echo "HOST_CC=gcc" >>"$GITHUB_ENV"
+          mkdir -p .cargo
+          echo "[target.${{ matrix.target }}]" >>.cargo/config
+          echo "linker = \"${{ matrix.target_prefix }}gcc\"" >>.cargo/config
+          echo "strip = { path = \"${{ matrix.target_prefix }}strip\" }" >>.cargo/config
+          echo "objcopy = { path = \"${{ matrix.target_prefix }}objcopy\" }" >>.cargo/config
+
+      - name: Download Latest Release
+        id: download-release
+        run: |
+          wget -O- "${{ needs.check-upstream.outputs.tarball_url }}" | tar xz
+          mv tonarino-innernet-*/* .
+          rm -fr tonarino-innernet-*
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+          target: ${{ matrix.target }}
+
+      - name: Set Up Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.os }}-${{ matrix.arch }}
+
+      - name: Install cargo-deb
+        run: |
+          type -p cargo-deb >/dev/null || cargo install cargo-deb
+
+      - name: Build Client DEB
+        uses: actions-rs/cargo@v1
+        with:
+          command: deb
+          args: -p client --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+
+      - name: Build Server DEB
+        uses: actions-rs/cargo@v1
+        with:
+          command: deb
+          args: -p server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+
+      - name: Upload DEBs
+        uses: actions/upload-artifact@v3
+        with:
+          # Syntax: https://github.com/actions/upload-artifact/issues/22
+          name: deb ${{ matrix.codename }} ${{ matrix.arch }}
+          path: target/${{ matrix.target }}/debian/*.deb
+
+  test-cross:
+    name: Test DEB Packages ${{ matrix.image }}/${{ matrix.codename }} (QEMU)
+    needs: [build-cross-deb]
+    if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        image:
+          - raspios_lite:latest
+          - raspios_lite_arm64:latest
+        include:
+          - image: raspios_lite:latest
+            codename: focal
+            qemu_cpu: cortex-a7
+            qemu_cpu_info: cpuinfo/raspberrypi_3b
+            arch: armhf
+          - image: raspios_lite_arm64:latest
+            codename: focal
+            qemu_cpu: cortex-a53
+            qemu_cpu_info: cpuinfo/raspberrypi_4b
+            arch: arm64
+
+    steps:
+      - name: Download DEBs
+        uses: actions/download-artifact@v3
+        with:
+          name: deb ${{ matrix.codename }} ${{ matrix.arch }}
+          path: ./artifacts
+
+      - name: Test DEBs
+        id: test
+        uses: pguyot/arm-runner-action@v2
+        with:
+          base_image: ${{ matrix.image }}
+          cpu: ${{ matrix.qemu_cpu }}
+          cpu_info: ${{ matrix.qemu_cpu_info }}
+          copy_artifact_path: github_test_summary
+          debug: false
+          commands: |
+            echo "* \`arch=$(dpkg-architecture -q DEB_HOST_ARCH)\`" >>"github_test_summary"
+            echo "* \`codename=$(lsb_release --short --codename)\`" >>"github_test_summary"
+
+            dpkg -i artifacts/innernet_*.deb
+            dpkg -i artifacts/innernet-server_*.deb
+
+            DEBIAN_FRONTEND=noninteractive apt-get update
+            DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes --fix-broken install
+
+            innernet --version
+            innernet-server --version
+
+      - name: Show Output
+        id: show-output
+        run: |
+          echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
+          cat github_test_summary >>"$GITHUB_STEP_SUMMARY"
+
+  update-repo:
+    name: Update Repository
+    needs: [check-upstream, build-deb, test-cross]
+    if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
+    runs-on: ubuntu-latest
 
     steps:
       - name: Install Distro Dependencies
@@ -178,19 +311,6 @@ jobs:
           echo "${{ secrets.GPG_SIGNING_KEY }}" | gpg --quiet --batch --yes --import
           echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset 57F0E65446A301CC19914FD61167922350A2D8B2
 
-      - name: Translate Codename
-        id: translate-codename
-        run: |
-          case "${{ matrix.os }}" in
-          ubuntu-22.04) codename=jammy ;;
-          ubuntu-20.04) codename=focal ;;
-          *)
-            echo "Unknown OS: ${{ matrix.os }}" >&2
-            exit 1
-            ;;
-          esac
-          echo "codename=$codename" >>"$GITHUB_OUTPUT"
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -201,15 +321,23 @@ jobs:
       - name: Download DEBs
         uses: actions/download-artifact@v3
         with:
-          name: deb-${{ matrix.os }}
           path: ./artifacts
 
-      - name: Import DEBs
+      - name: Include DEBs
+        id: include-debs
         run: |
-          cd artifacts
-          for name in *.deb; do
-            reprepro --export=silent-never -b ../debian includedeb "${{ steps.translate-codename.outputs.codename }}" "$name"
+          declare -a codenames archs
+          for path in artifacts/deb\ */*.deb; do
+            codename=${path#artifacts/deb }
+            arch=${codename##* }
+            arch=${arch%%/*}
+            codename=${codename% *}
+            reprepro -A "$arch" --export=silent-never -b debian includedeb "$codename" "$path"
+            codenames+=( "$codename" )
+            archs+=( "$arch" )
           done
+          (IFS=$'\n' ; echo "codenames=$(echo "${codenames[*]}" | sort -u | xargs -r)" >>"$GITHUB_OUTPUT")
+          (IFS=$'\n' ; echo "archs=$(echo "${archs[*]}" | sort -u | xargs -r)" >>"$GITHUB_OUTPUT")
 
       - name: Update Repository
         run: |
@@ -218,7 +346,7 @@ jobs:
           }
 
           if has_changes debian/pool; then
-              reprepro -b debian export "${{ steps.translate-codename.outputs.codename }}"
+              reprepro -b debian export
           fi
 
           if has_changes debian/{db,dists,pool}; then
@@ -226,7 +354,7 @@ jobs:
               git \
                   -c 'user.email=41898282+github-actions[bot]@users.noreply.github.com' \
                   -c 'user.name=github-actions[bot]' \
-                  commit -m "Included release tonarino/innernet@${{ needs.check-upstream.outputs.innernet_release }} in ${{ steps.translate-codename.outputs.codename }}."
+                  commit -m "Included release tonarino/innernet@${{ needs.check-upstream.outputs.innernet_release }} in ${{ steps.include-debs.outputs.codenames }} for ${{ steps.include-debs.outputs.archs }}."
           else
               echo 'No updates to commit.'
           fi
@@ -238,11 +366,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 
-      # GitHub shows an inconsistent delay with pulling right after pushing. Since we push
-      # for multiple distributions, we have to make sure the next checkout doesn't conflict
-      # with the current.
-      #
-      # TODO: merge artefacts so we don't need one Release job per distribution.
-      - name: Delay 1m for pushed changes to be visible
-        run: sleep 1m
-        shell: bash
+      - name: Show Output
+        id: show-output
+        run: |
+          echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`codenames=${{ steps.include-debs.outputs.codenames }}\`" >>"$GITHUB_STEP_SUMMARY"
+          echo "* \`archs=${{ steps.include-debs.outputs.archs }}\`" >>"$GITHUB_STEP_SUMMARY"

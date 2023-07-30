@@ -2,7 +2,7 @@ Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Description: APT repository for https://github.com/tonarino/innernet/.
 Codename: focal
-Architectures: amd64
+Architectures: amd64 armhf arm64
 Components: contrib
 DebOverride: deboverride
 SignWith: 65828D743CEE8B69
@@ -11,7 +11,7 @@ Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Description: APT repository for https://github.com/tonarino/innernet/.
 Codename: jammy
-Architectures: amd64
+Architectures: amd64 armhf arm64
 Components: contrib
 DebOverride: deboverride
 SignWith: 65828D743CEE8B69
