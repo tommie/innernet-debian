@@ -20,10 +20,26 @@ EOF
 apt update
 ```
 
-See [`dists/`](https://github.com/tommie/innernet-debian/tree/main/debian/dists) for supported codenames.
-Debian 11 (Bullseye) is served by `focal`.
-There is a symlink in place to allow `bullseye`, which will cause APT to warn that the codenames missmatch.
-In the end, both names work.
+### Compatibility
+
+We build for
+
+* Ubuntu 20.04 (focal)
+* Ubuntu 22.04 (jammy)
+
+on
+
+* amd64, x86_64
+* armhf, armv7 (cross-build)
+* arm64, aarch64 (cross-build)
+
+Additionally:
+
+* Debian 11 (Bullseye) is served by `focal`.
+  There is a symlink in place to allow `bullseye`, which will cause APT to warn that the codenames missmatch.
+  In the end, either name works.
+
+The authoritative source of supported distributions and architectures is [`conf/distributions`](https://github.com/tommie/innernet-debian/blob/main/debian/conf/distributions).
 
 ### Installing the Server
 
