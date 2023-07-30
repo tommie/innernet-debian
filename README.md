@@ -1,5 +1,7 @@
 # Unofficial Innernet APT Repository
 
+[![Update Repository](https://github.com/tommie/innernet-debian/actions/workflows/main.yml/badge.svg?event=schedule)](https://github.com/tommie/innernet-debian/actions/workflows/main.yml)
+
 This is a Debian/Ubuntu APT repository containing `.deb` files from https://github.com/tonarino/innernet/releases.
 The updates are fully reproducible through GitHub Actions.
 
