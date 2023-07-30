@@ -332,9 +332,14 @@ jobs:
             arch=${codename##* }
             arch=${arch%%/*}
             codename=${codename% *}
-            reprepro -A "$arch" --export=silent-never -b debian includedeb "$codename" "$path"
-            codenames+=( "$codename" )
-            archs+=( "$arch" )
+            name="$(dpkg-deb --field "$path" package)"
+            if [ ! -e "debian/pool/contrib/i/$name/$(basename "$path")" ]; then
+              reprepro -A "$arch" --export=silent-never -b debian includedeb "$codename" "$path"
+              codenames+=( "$codename" )
+              archs+=( "$arch" )
+            else
+              echo 'Package $name already exists. Silently ignored.'
+            fi
           done
           (IFS=$'\n' ; echo "codenames=$(echo "${codenames[*]}" | sort -u | xargs -r)" >>"$GITHUB_OUTPUT")
           (IFS=$'\n' ; echo "archs=$(echo "${archs[*]}" | sort -u | xargs -r)" >>"$GITHUB_OUTPUT")
