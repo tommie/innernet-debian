@@ -2,7 +2,7 @@
 
 [![Update Repository](https://github.com/tommie/innernet-debian/actions/workflows/main.yml/badge.svg?event=schedule)](https://github.com/tommie/innernet-debian/actions/workflows/main.yml)
 
-This is a Debian/Ubuntu APT repository containing `.deb` files from https://github.com/tonarino/innernet/releases.
+This is a Ubuntu/Debian APT repository containing `.deb` files from https://github.com/tonarino/innernet/releases.
 The updates are fully reproducible through GitHub Actions.
 
 For more information, see https://github.com/tonarino/innernet.
@@ -41,8 +41,8 @@ $ sudo apt install innernet
 
 We build for
 
-* Ubuntu 20.04 (**focal**)
 * Ubuntu 22.04 (**jammy**)
+* Ubuntu 20.04 (**focal**)
 
 on
 
@@ -52,6 +52,9 @@ on
 
 Additionally:
 
+* Debian 12 (**bookworm**) is served by `jammy`.
+  There is a symlink in place to allow `bookworm`, which will cause APT to warn that the codenames missmatch.
+  In the end, either name works.
 * Debian 11 (**bullseye**) is served by `focal`.
   There is a symlink in place to allow `bullseye`, which will cause APT to warn that the codenames missmatch.
   In the end, either name works.
