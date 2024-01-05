@@ -86,21 +86,27 @@ jobs:
     name: Build DEB Packages ${{ matrix.os }}/${{ matrix.arch }}
     needs: [check-upstream]
     if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.image }}
 
     strategy:
       matrix:
+        arch: [amd64]
         os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
         include:
-          - arch: amd64
           - os: ubuntu-22.04
             codename: jammy
+            image: ubuntu:22.04
           - os: ubuntu-20.04
             codename: focal
+            image: ubuntu:20.04
 
     steps:
       - name: Install Distro Dependencies
-        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes build-essential ca-certificates dpkg-dev liblzma-dev wget
 
       - name: Download Latest Release
         id: download-release
@@ -108,6 +114,7 @@ jobs:
           wget -O- "${{ needs.check-upstream.outputs.tarball_url }}" | tar xz
           mv tonarino-innernet-*/* .
           rm -fr tonarino-innernet-*
+          sed -i -e '/^readme =/ d' server/Cargo.toml
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -157,10 +164,6 @@ jobs:
           - armhf
           - arm64
         include:
-          - os: ubuntu-22.04
-            codename: jammy
-          - os: ubuntu-20.04
-            codename: focal
           - arch: armhf
             target: armv7-unknown-linux-gnueabihf
             target_prefix: arm-linux-gnueabihf-
@@ -169,13 +172,35 @@ jobs:
             target_prefix: aarch64-linux-gnu-
 
     steps:
+      - name: Infer Configuration
+        id: config
+        run: |
+          case "${{ matrix.os }}" in
+          ubuntu-22.04)
+            echo "codename=jammy" >>"$GITHUB_OUTPUT"
+            ;;
+          ubuntu-20.04)
+            echo "codename=focal" >>"$GITHUB_OUTPUT"
+            ;;
+          *)
+            if [ "ubuntu-$(lsb_release -sr)" = "${{ matrix.os }}" ]; then
+              echo "codename=$(lsb_release -sc)" >>"$GITHUB_OUTPUT"
+            else
+              echo "unknown matrix.os: ${{ matrix.os }}" >&2
+              exit 1
+            fi
+            ;;
+          esac
+
       - name: Install Distro Dependencies
         run: |
+          sudo sed -i -e 's;^\(deb\(-src\)\?\)\(\s\+\)\(\(https\?://azure\.archive\.ubuntu\.com\|https\?://archive\.ubuntu\.com\|https\?://security\.ubuntu\.com\)/\|mirror+file:/etc/apt/apt-mirrors\.txt\);\1\3[arch=amd64,i386]\3\4;' /etc/apt/sources.list /etc/apt/sources.list.d/*.list
           sudo dpkg --add-architecture "${{ matrix.arch }}"
-          sudo sed -i -e 's;^\(deb\(-src\)\?\)\(\s\+\)\(https\?://\(azure\.archive\.ubuntu\.com\|archive\.ubuntu\.com\|security\.ubuntu\.com\)/\);\1\3[arch=amd64,i386]\3\4;' /etc/apt/sources.list /etc/apt/sources.list.d/*.list
-          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }} main universe" | sudo tee /etc/apt/sources.list.d/ports.list >/dev/null
-          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-security main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
-          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-updates main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
+          # apt-get install goes into an infinite loop (use -o Debug::pkgAcquire=true to see it) if we use apt-mirrors.txt, like GitHub does for the host architecture.
+          # So we just limit the mirrors file and use our trusty sources.list overrides.
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }} main universe" | sudo tee /etc/apt/sources.list.d/ports.list >/dev/null
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }}-security main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }}-updates main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
           sudo apt-get update
           sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev pkg-config build-essential "crossbuild-essential-${{ matrix.arch }}" libsqlite3-dev:"${{ matrix.arch }}"
 
@@ -196,6 +221,7 @@ jobs:
           wget -O- "${{ needs.check-upstream.outputs.tarball_url }}" | tar xz
           mv tonarino-innernet-*/* .
           rm -fr tonarino-innernet-*
+          sed -i -e '/^readme =/ d' server/Cargo.toml
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -218,24 +244,24 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p client --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+          args: -p client --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
 
       - name: Build Server DEB
         uses: actions-rs/cargo@v1
         with:
           command: deb
-          args: -p server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+          args: -p server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v3
         with:
           # Syntax: https://github.com/actions/upload-artifact/issues/22
-          name: deb ${{ matrix.codename }} ${{ matrix.arch }}
+          name: deb ${{ steps.config.outputs.codename }} ${{ matrix.arch }}
           path: target/${{ matrix.target }}/debian/*.deb
 
   test-cross:
-    name: Test DEB Packages ${{ matrix.image }}/${{ matrix.codename }} (QEMU)
-    needs: [build-cross-deb]
+    name: Test DEB Packages ${{ matrix.image }}/${{ matrix.os }} (QEMU)
+    needs: [check-upstream, build-cross-deb]
     if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
     runs-on: ubuntu-latest
 
@@ -246,18 +272,21 @@ jobs:
           - raspios_lite_arm64:latest
         include:
           - image: raspios_lite:latest
-            codename: focal
+            os: ubuntu-22.04
+            codename: jammy
             qemu_cpu: cortex-a7
             qemu_cpu_info: cpuinfo/raspberrypi_3b
             arch: armhf
           - image: raspios_lite_arm64:latest
-            codename: focal
+            os: ubuntu-22.04
+            codename: jammy
             qemu_cpu: cortex-a53
             qemu_cpu_info: cpuinfo/raspberrypi_4b
             arch: arm64
 
     steps:
       - name: Download DEBs
+        if: "contains(needs.check-upstream.outputs.new_release_exists, matrix.os)"
         uses: actions/download-artifact@v3
         with:
           name: deb ${{ matrix.codename }} ${{ matrix.arch }}
@@ -265,6 +294,7 @@ jobs:
 
       - name: Test DEBs
         id: test
+        if: "contains(needs.check-upstream.outputs.new_release_exists, matrix.os)"
         uses: pguyot/arm-runner-action@v2
         with:
           base_image: ${{ matrix.image }}
@@ -287,6 +317,7 @@ jobs:
 
       - name: Show Output
         id: show-output
+        if: "contains(needs.check-upstream.outputs.new_release_exists, matrix.os)"
         run: |
           echo "## Job Outputs" >>"$GITHUB_STEP_SUMMARY"
           cat github_test_summary >>"$GITHUB_STEP_SUMMARY"
