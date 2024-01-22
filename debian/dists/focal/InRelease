@@ -4,51 +4,51 @@ Hash: SHA512
 Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Codename: focal
-Date: Sun, 30 Jul 2023 13:18:34 UTC
+Date: Mon, 22 Jan 2024 14:39:30 UTC
 Architectures: amd64 armhf arm64
 Components: contrib
 Description: APT repository for https://github.com/tonarino/innernet/.
 MD5Sum:
- 09585d6972df6d213e1a2a95a6d7f783 12098 contrib/binary-amd64/Packages
- f71f3ea5d0ab6f8e0dad303f04573e81 4799 contrib/binary-amd64/Packages.gz
+ 2eed532c18080f94efa64a20e0850101 1493 contrib/binary-amd64/Packages
+ 42d48d316784c03b360d12d06bc3e4e6 663 contrib/binary-amd64/Packages.gz
  77dc2b012f45038d5be68f81d464ee44 179 contrib/binary-amd64/Release
- b1dcfb8ffed93c950262d0d18d93e8db 12097 contrib/binary-armhf/Packages
- 11ffc1ea682429a3cfd051979b9d6dcc 4799 contrib/binary-armhf/Packages.gz
+ ad99ee2214dc0e890ca4f4b28d6dbaf0 1493 contrib/binary-armhf/Packages
+ 14b3724f4a55b292edc58e5159320fb0 665 contrib/binary-armhf/Packages.gz
  2e56331833f644fa9dad5483acc93e55 179 contrib/binary-armhf/Release
- 9e4f28eca65271f15f684a56874f433d 12097 contrib/binary-arm64/Packages
- edc6e00a474363010d79da0a577dbc64 4803 contrib/binary-arm64/Packages.gz
+ 3678a76f8c1f7789f33472b0b1425b6e 1492 contrib/binary-arm64/Packages
+ 53f3f8680c0a82954fde16e23c8f10cd 669 contrib/binary-arm64/Packages.gz
  16627cd2b6e090772a75639bb48cd54d 179 contrib/binary-arm64/Release
 SHA1:
- 87d9b5312a8e5e99090351a36d09785c02303cf1 12098 contrib/binary-amd64/Packages
- ea7af888161785eae92c690ddf4a3f0cf2f75cc9 4799 contrib/binary-amd64/Packages.gz
+ 2adb2413fdc1847cc786b4f5bcd3bcb9b63646f6 1493 contrib/binary-amd64/Packages
+ 27f8e6a53160f30fd9b00d8629eebeece2b37357 663 contrib/binary-amd64/Packages.gz
  a4f6bbfd6fe4ab5a01909278c4e13b05d6b06f13 179 contrib/binary-amd64/Release
- d0b3431eb3e21ceb02caa9dd63aaf8b2231e3e5e 12097 contrib/binary-armhf/Packages
- 3ff371bef4abda8010bc8ad4b8873acfb8bd220e 4799 contrib/binary-armhf/Packages.gz
+ f007c3ba7b8da39d1d93bf2ec1e4dd65b1e2bf7a 1493 contrib/binary-armhf/Packages
+ ffa3d9fa4156adc85bd1e1b4b424e25222ef22de 665 contrib/binary-armhf/Packages.gz
  dbfc90ff9af0819e8b73429a32e4691204b11da7 179 contrib/binary-armhf/Release
- b8d99778297cbd777821c7162c9146d3f0407b6c 12097 contrib/binary-arm64/Packages
- 2ec88f0de84b12f796712cf8bdd9ae163a5e78d0 4803 contrib/binary-arm64/Packages.gz
+ fa43b23088efe1cc2d56885126b335066e8a69ed 1492 contrib/binary-arm64/Packages
+ 615ac42f2ee41906f58c3145bb2723bb83bea85a 669 contrib/binary-arm64/Packages.gz
  af10abab9b82b0f8be34be72d478cd7efe4e64b9 179 contrib/binary-arm64/Release
 SHA256:
- ce495f6c9bc1fb23dab42746cf14086dde7f1531922919af49f93708d6f9428c 12098 contrib/binary-amd64/Packages
- 466c0a757405ed9c217efb1b5c81f4b722922ee63c462b668a9957f6459a38a9 4799 contrib/binary-amd64/Packages.gz
+ b555648b373a9d97e37ac3741a6f4e834d79547e42cf1adda20e61e3d5857115 1493 contrib/binary-amd64/Packages
+ 5d51808345cac6ab03939a1ac441cf1e03732f7d134a0b54aac1c20ede7c91f8 663 contrib/binary-amd64/Packages.gz
  67b3f0e511499d8b794eaf1524cea47d2263a1e8e43445c60f311dbef9a50e9c 179 contrib/binary-amd64/Release
- 749a6859a1f9859ad9963b7f1d2ea665adf505d4e9457cad997600e26e3c2112 12097 contrib/binary-armhf/Packages
- 5ee9f26a09e21a87dfdb376fa3a6098a61b4fb7056d0957f56b6f43a84f65e25 4799 contrib/binary-armhf/Packages.gz
+ 17752abfca0e7430b4979fc8c2277e7ad994dc9be693b0adfbc3fdb151306d80 1493 contrib/binary-armhf/Packages
+ aecf0a2cd2a2c80b1102845c275cdfdc93ed6912162f87c0d5bab0fa6f71d231 665 contrib/binary-armhf/Packages.gz
  ce7a57575ec61bf1af16351e2366f7114f6ad78e035696abaaac42f80dd8f425 179 contrib/binary-armhf/Release
- 24f6c2047566e4e6921badbbd7d9a6fe47e59acea3b932a1143bfb1783e63e84 12097 contrib/binary-arm64/Packages
- e7bc836e26a4d99973dc79ba64ebd6f62dc3e385685bb1963e111466f5205a26 4803 contrib/binary-arm64/Packages.gz
+ 99e7bc596aec7edf82bd42e264c73b5a040e8ea8885b4e209c684a767fe17028 1492 contrib/binary-arm64/Packages
+ 97044c4b7f2b0923390858c25b18107fc48da0085a43ea440eaf2c31388a44b3 669 contrib/binary-arm64/Packages.gz
  86092179ad14de3750a8a527f8419920154bd761ea7367b9452abe85cfbca03d 179 contrib/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmTGYysACgkQZYKNdDzu
-i2nJWgwAlGrzcAQsvZvsCaQjbWBndiJDtndfj8BQyRORCbbdEQ0pej2KOj7X+BIJ
-/u7fKHLBKQ/oHZ/t7Bijv5z0MG3n1oG1AK0vAwMFr0t8yJQzl6DuwqQrTgeIsAQ5
-3kHoqbxDuFLUssNUcHsl3yWMULHOb8pteavSfjf7YZiBXmr2qhN+OEV69oHlOPju
-UkTPvBTYlt4OPoESLMxk61O1YWB42Y5NpVzx2q6oft5d/D3OzND2SgTrGCQDvWYJ
-55EkN9ddV3hGMqTr216vcq3k0DpHCcUhAd0L2tlyVDnf01mdj9YqtflZM2XfxQ1e
-jdDcvHh9BqDlEG2mODtTpQY6aOuNdKX5sx61Vblf7QiQDQMDI0dg7wsco/KiftcT
-5QGvOGv2dehlJggMEXxF0B6cLzduwSu2O5OlbFUVqvUhXV+5RKSuiV3g+1g4BonS
-faL1bLlMI5iIpO9qJCPvqrVepbRl1bYz7sMIdeVYTGWdcV7MdnZ8RJynIuhlItCk
-oI2X+qhm
-=RQGT
+iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmWufiMACgkQZYKNdDzu
+i2mn3gv+JLmQzgnDkwe6xBp4i9HeeAN3VfXBvtqw0lvWRdDjTJci+juhcc6prP/T
+ec8v/afIWzw4BvsilOVbbTUYRUZaRHcaVUpLaFz8gbufGWw5PvJAY0dOqOURnuGP
+PCavrAGxFV7CvPTsIyCL5Zocx8a0I3K/0x5f/37cLr8rvwvOxYZWbwgsYd6zwcpL
+7RxpyMVr8o8CvGxAJuR8SzwRo1izy13ZWzmw8qeJCtfY8jev3Z/V6HuJK3CYhzRa
+HjS3JLWvrVL4QO9uk6bn33pMDp7oFGltRRU4vwtsWBxzSi1/gGSuNlQEBv9SS/6P
+SoV1kPLQw/6CeY+gyAPX+OBOE7GNSwauXVtziMi4ubQ1FQdOD+NQSxPe6Fz1nUQg
+G+YX9b9OErwwjie1UyzCCXDODicrDtDVg2q55s30CA8qpO7GW3FthcYghoh/tne2
+WST9nT5HHXxHGozPEalyiU+44k3o6SblCmsEkHN13XyiMz8qeYRsRBWY0ZwIAqJv
+BTz444mw
+=i42q
 -----END PGP SIGNATURE-----
