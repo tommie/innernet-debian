@@ -59,7 +59,7 @@ jobs:
         run: |
           declare -a new_release_exists
           for arch in amd64 armhf arm64; do
-            for ver_codename in ubuntu-22.04/jammy ubuntu-20.04/focal; do
+            for ver_codename in ubuntu-24.04/noble ubuntu-22.04/jammy ubuntu-20.04/focal; do
               ver=${ver_codename%/*}
               codename=${ver_codename##*/}
               # Note the leading v to match the Git tag.
@@ -95,6 +95,9 @@ jobs:
         arch: [amd64]
         os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
         include:
+          - os: ubuntu-24.04
+            codename: noble
+            image: ubuntu:24.04
           - os: ubuntu-22.04
             codename: jammy
             image: ubuntu:22.04
@@ -176,6 +179,9 @@ jobs:
         id: config
         run: |
           case "${{ matrix.os }}" in
+          ubuntu-24.04)
+            echo "codename=noble" >>"$GITHUB_OUTPUT"
+            ;;
           ubuntu-22.04)
             echo "codename=jammy" >>"$GITHUB_OUTPUT"
             ;;
