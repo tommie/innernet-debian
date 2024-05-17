@@ -68,9 +68,7 @@ The authoritative source of supported distributions and architectures is [`conf/
 When Ubuntu/Debian releases a new version, we need to
 
 1. Add the new distribution in `debian/conf/distributions`.
-1. Update `.github/workflows/main.yml` in
-   * `check-repo-release` to find existing package versions,
-   * `build-deb` matrix to build on the new version.
+1. Add the version and codename to the matrix in `build-deb` in `.github/workflows/main.yml`.
 
 ## License
 

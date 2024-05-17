@@ -48,7 +48,7 @@ jobs:
               )
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # See https://github.com/marketplace/actions/github-push
           persist-credentials: false
@@ -58,8 +58,9 @@ jobs:
         id: check-repo-release
         run: |
           declare -a new_release_exists
+          ver_codenames=( $(python3 -c 'import json; import yaml; import sys; json.dump(yaml.safe_load(open(sys.argv[1])), sys.stdout)' .github/workflows/main.yml | jq -r '.jobs."build-deb".strategy.matrix.include[] | .os+"/"+.codename') )
           for arch in amd64 armhf arm64; do
-            for ver_codename in ubuntu-24.04/noble ubuntu-22.04/jammy ubuntu-20.04/focal; do
+            for ver_codename in "${ver_codenames[@]}"; do
               ver=${ver_codename%/*}
               codename=${ver_codename##*/}
               # Note the leading v to match the Git tag.
@@ -136,19 +137,13 @@ jobs:
           key: ${{ matrix.os }}-amd64
 
       - name: Build Client DEB
-        uses: actions-rs/cargo@v1
-        with:
-          command: deb
-          args: -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+        run: cargo deb -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
 
       - name: Build Server DEB
-        uses: actions-rs/cargo@v1
-        with:
-          command: deb
-          args: -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+        run: cargo deb -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
 
       - name: Upload DEBs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           # Syntax: https://github.com/actions/upload-artifact/issues/22
           name: deb ${{ matrix.codename }} ${{ matrix.arch }}
@@ -249,19 +244,15 @@ jobs:
           type -p cargo-deb >/dev/null || cargo install cargo-deb
 
       - name: Build Client DEB
-        uses: actions-rs/cargo@v1
-        with:
-          command: deb
-          args: -p client --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
+        run: |
+          cargo deb -p client --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
 
       - name: Build Server DEB
-        uses: actions-rs/cargo@v1
-        with:
-          command: deb
-          args: -p server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
+        run: |
+          cargo deb -p server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
 
       - name: Upload DEBs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           # Syntax: https://github.com/actions/upload-artifact/issues/22
           name: deb ${{ steps.config.outputs.codename }} ${{ matrix.arch }}
@@ -295,7 +286,7 @@ jobs:
     steps:
       - name: Download DEBs
         if: "contains(needs.check-upstream.outputs.new_release_exists, matrix.os)"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: deb ${{ matrix.codename }} ${{ matrix.arch }}
           path: ./artifacts
@@ -351,14 +342,14 @@ jobs:
           echo '${{ secrets.GPG_SIGNING_PASSPHRASE }}' | /usr/lib/gnupg/gpg-preset-passphrase --preset 57F0E65446A301CC19914FD61167922350A2D8B2
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # See https://github.com/marketplace/actions/github-push
           persist-credentials: false
           fetch-depth: 0
 
       - name: Download DEBs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: ./artifacts
 
