@@ -179,9 +179,6 @@ jobs:
         id: config
         run: |
           case "${{ matrix.os }}" in
-          ubuntu-24.04)
-            echo "codename=noble" >>"$GITHUB_OUTPUT"
-            ;;
           ubuntu-22.04)
             echo "codename=jammy" >>"$GITHUB_OUTPUT"
             ;;
