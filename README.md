@@ -61,6 +61,17 @@ Additionally:
 
 The authoritative source of supported distributions and architectures is [`conf/distributions`](https://github.com/tommie/innernet-debian/blob/main/debian/conf/distributions).
 
+## Maintenance
+
+### Adding a Distribution
+
+When Ubuntu/Debian releases a new version, we need to
+
+1. Add the new distribution in `debian/conf/distributions`.
+1. Update `.github/workflows/main.yml` in
+   * `check-repo-release` to find existing package versions,
+   * `build-deb` matrix to build on the new version.
+
 ## License
 
 The repository maintenance code itself is under the MIT License.
