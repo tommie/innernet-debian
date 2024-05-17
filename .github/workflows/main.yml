@@ -197,9 +197,6 @@ jobs:
 
       - name: Install Distro Dependencies
         run: |
-          # TODO: debugging
-          grep -Fr azure.archive.ubuntu.com /etc || :
-          cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources || :
           sudo sed -i -e 's;^\(deb\(-src\)\?\)\(\s\+\)\(\(https\?://azure\.archive\.ubuntu\.com\|https\?://archive\.ubuntu\.com\|https\?://security\.ubuntu\.com\)/\|mirror+file:/etc/apt/apt-mirrors\.txt\);\1\3[arch=amd64,i386]\3\4;' /etc/apt/sources.list /etc/apt/sources.list.d/*.list
           for f in /etc/apt/sources.list.d/*.sources; do
             # -i inplace doesn't work with END.
@@ -212,9 +209,6 @@ jobs:
           echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }} main universe" | sudo tee /etc/apt/sources.list.d/ports.list >/dev/null
           echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }}-security main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
           echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }}-updates main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
-          # TODO: debugging
-          grep -Fr azure.archive.ubuntu.com /etc || :
-          cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources || :
           sudo apt-get update
           sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev pkg-config build-essential "crossbuild-essential-${{ matrix.arch }}" libsqlite3-dev:"${{ matrix.arch }}"
 
