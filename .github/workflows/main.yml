@@ -201,7 +201,7 @@ jobs:
           grep -Fr azure.archive.ubuntu.com /etc || :
           cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources || :
           sudo sed -i -e 's;^\(deb\(-src\)\?\)\(\s\+\)\(\(https\?://azure\.archive\.ubuntu\.com\|https\?://archive\.ubuntu\.com\|https\?://security\.ubuntu\.com\)/\|mirror+file:/etc/apt/apt-mirrors\.txt\);\1\3[arch=amd64,i386]\3\4;' /etc/apt/sources.list /etc/apt/sources.list.d/*.list
-          sudo awk 'BEGIN { FS = ": +"; } END { if (found) print "Architectures: amd64 i386" archs; } found && !$0 { print "Architectures: amd64 i386" archs; } !$0 { found = 0; archs = ""; } $1 == "URIs:" && $2 ~ /azure\.archive\.ubuntu\.com/ { found = 1; } $1 == "Architectures" { archs = " " $2; next; } { print; }' /etc/apt/sources.list.d/*.sources
+          sudo awk 'BEGIN { FS = ": +"; } END { if (found) print "Architectures: amd64 i386" archs; } found && !$0 { print "Architectures: amd64 i386" archs; } !$0 { found = 0; archs = ""; } $1 == "URIs" && $2 ~ /azure\.archive\.ubuntu\.com/ { found = 1; } $1 == "Architectures" { archs = " " $2; next; } { print; }' /etc/apt/sources.list.d/*.sources
           sudo dpkg --add-architecture "${{ matrix.arch }}"
           # apt-get install goes into an infinite loop (use -o Debug::pkgAcquire=true to see it) if we use apt-mirrors.txt, like GitHub does for the host architecture.
           # So we just limit the mirrors file and use our trusty sources.list overrides.
