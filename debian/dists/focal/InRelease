@@ -4,7 +4,7 @@ Hash: SHA512
 Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Codename: focal
-Date: Mon, 22 Jan 2024 14:39:30 UTC
+Date: Mon, 20 May 2024 14:37:09 UTC
 Architectures: amd64 armhf arm64
 Components: contrib
 Description: APT repository for https://github.com/tonarino/innernet/.
@@ -40,15 +40,15 @@ SHA256:
  86092179ad14de3750a8a527f8419920154bd761ea7367b9452abe85cfbca03d 179 contrib/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmWufiMACgkQZYKNdDzu
-i2mn3gv+JLmQzgnDkwe6xBp4i9HeeAN3VfXBvtqw0lvWRdDjTJci+juhcc6prP/T
-ec8v/afIWzw4BvsilOVbbTUYRUZaRHcaVUpLaFz8gbufGWw5PvJAY0dOqOURnuGP
-PCavrAGxFV7CvPTsIyCL5Zocx8a0I3K/0x5f/37cLr8rvwvOxYZWbwgsYd6zwcpL
-7RxpyMVr8o8CvGxAJuR8SzwRo1izy13ZWzmw8qeJCtfY8jev3Z/V6HuJK3CYhzRa
-HjS3JLWvrVL4QO9uk6bn33pMDp7oFGltRRU4vwtsWBxzSi1/gGSuNlQEBv9SS/6P
-SoV1kPLQw/6CeY+gyAPX+OBOE7GNSwauXVtziMi4ubQ1FQdOD+NQSxPe6Fz1nUQg
-G+YX9b9OErwwjie1UyzCCXDODicrDtDVg2q55s30CA8qpO7GW3FthcYghoh/tne2
-WST9nT5HHXxHGozPEalyiU+44k3o6SblCmsEkHN13XyiMz8qeYRsRBWY0ZwIAqJv
-BTz444mw
-=i42q
+iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmZLYBYACgkQZYKNdDzu
+i2l/iQv9EgyiLakHQehtueuBXD0CBo7mOeQasUGh1MVMk2HKQZfu5NYy1GAAUynF
+402Fym4uXoWFcduiKezCCRdNF5rEYGV6IUSPJpGAdBrYuhKIPUlpTLIVfrqEePyW
+mGed9xvEVAFXrXR43Q8iVeOcn3IOzMsZqwzFYFHzX7Ywj3ofFxd1V2HruflDiqUX
+2bbTu8K/9zUlHE/LBSPXHqSwGyzs2I/jw5hk2qVR6AKFXguFOtqsThsrdgCD3pvZ
+MbPQJAndcomoe8yF6SDoUJDdG1Rht8NnCLp6W6dSkEyu3xhoDD2vpODY4/D3hH39
+dIVRo57+lAi0TTVMCJMjR93V/r/KVAbF+sLAAuoWJFg8WF89DEQmUVSjVj9CXn/P
+tpzhUbAeQRjWjQQgb+zEtRR/7dey8bEgQNG2fgB45mj0p4wCjfyuMnVMks6wx/11
+7Fq+RsYfuTkihc92hpL0KlOhw9hl7jZSOxlSsWUbaTrBRwf5DWTVsOiijvsLCsFt
+TNy4rfdG
+=75Xa
 -----END PGP SIGNATURE-----

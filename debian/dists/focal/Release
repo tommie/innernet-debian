@@ -1,7 +1,7 @@
 Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Codename: focal
-Date: Mon, 22 Jan 2024 14:39:30 UTC
+Date: Mon, 20 May 2024 14:37:09 UTC
 Architectures: amd64 armhf arm64
 Components: contrib
 Description: APT repository for https://github.com/tonarino/innernet/.
