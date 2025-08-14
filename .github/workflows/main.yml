@@ -261,7 +261,7 @@ jobs:
         with:
           # Syntax: https://github.com/actions/upload-artifact/issues/22
           name: deb ${{ matrix.codename }} ${{ matrix.arch }}
-          path: target/${{ matrix.target }}/debian/*.deb
+          path: target/debian/*.deb
 
   test-cross:
     name: Test DEB Packages ${{ matrix.image }}/${{ matrix.os }} (QEMU)
