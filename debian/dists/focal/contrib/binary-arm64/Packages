@@ -1,41 +1,37 @@
 Package: innernet
-Version: 1.6.1-0ubuntu0~focal
+Version: 1.7.0-0ubuntu0~
 Architecture: arm64
-Vcs-Browser: https://github.com/tonarino/innernet
-Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 3097
+Installed-Size: 3379
 Depends: libc6, libgcc1, systemd
 Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.6.1-0ubuntu0~focal_arm64.deb
-Size: 996348
-SHA256: 4cbb067b10d23478cdcc4bfc55ab21e57edc338b842f339cfc493ebd943a52bd
-SHA1: 741a5339bfdfd890c063d70b08287b772bca97e5
-MD5sum: 304643085d804b48f535073ee3f65f0f
+Filename: pool/contrib/i/innernet/innernet_1.7.0-0ubuntu0~_arm64.deb
+Size: 1049236
+SHA256: 333e5ca43894ecfbf507b87dfde776bf133ab71762a3ab9f871588d94cfbfe71
+SHA1: 2f403d599112eec961c6c8a17d6ae206533f395b
+MD5sum: f037efa0b7f95e5b9c478df97c67ed39
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.6.1-0ubuntu0~focal
+Version: 1.7.0-0ubuntu0~
 Architecture: arm64
-Vcs-Browser: https://github.com/tonarino/innernet
-Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 4146
-Depends: zlib1g, systemd, libgcc1, libsqlite3-0, libc6
+Installed-Size: 3514
+Depends: libc6, libgcc1, libsqlite3-0, systemd, zlib1g
 Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.6.1-0ubuntu0~focal_arm64.deb
-Size: 1445676
-SHA256: f09f81ae098b4058e9531ef72d28369ea2011c9e71c226ada5ebd8e76fb41dea
-SHA1: 1039acb66fe9aaa8f77d68fae41c24340737990f
-MD5sum: ce39d9f66ae6013d12f10fc22a6023b6
+Filename: pool/contrib/i/innernet-server/innernet-server_1.7.0-0ubuntu0~_arm64.deb
+Size: 1103224
+SHA256: ead1ec46ead26900c38fd05cba42e40845089155c67fc0edf31ad33ee4b78e11
+SHA1: 07d972e8f969a95ec47156a59333442628023ad2
+MD5sum: cd177de9a87d1d0583b1d99eaa839501
 Description: A server to coordinate innernet networks.
 

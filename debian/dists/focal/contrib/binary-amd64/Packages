@@ -1,41 +1,37 @@
 Package: innernet
-Version: 1.6.1-0ubuntu0~focal
+Version: 1.7.0-0ubuntu0~focal
 Architecture: amd64
-Vcs-Browser: https://github.com/tonarino/innernet
-Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 3541
-Depends: libc6, systemd, libgcc1
+Installed-Size: 3851
+Depends: libc6, libgcc1, systemd
 Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.6.1-0ubuntu0~focal_amd64.deb
-Size: 1111620
-SHA256: cacf84242e097f45af4037fe6d5669f39ac9c57cdb028585e020399ac3dc4791
-SHA1: 494b4cbe7ef2236e4399cb97c3988f8c0d572043
-MD5sum: 3c390c83ab807227421ec01efe63fbc8
+Filename: pool/contrib/i/innernet/innernet_1.7.0-0ubuntu0~focal_amd64.deb
+Size: 1208108
+SHA256: a77f9261a266f46699c721d36c690720f62520839f830a86001b675071971ba6
+SHA1: 74d1ad10cd899e67e0c8b72a2d3296f76f55b354
+MD5sum: 76384306d2d2194ed86813befa12119c
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.6.1-0ubuntu0~focal
+Version: 1.7.0-0ubuntu0~focal
 Architecture: amd64
-Vcs-Browser: https://github.com/tonarino/innernet
-Vcs-Git: https://github.com/tonarino/innernet
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 4538
-Depends: libc6, libsqlite3-0, systemd, zlib1g, libgcc1
+Installed-Size: 3978
+Depends: libc6, libgcc1, libsqlite3-0, systemd, zlib1g
 Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.6.1-0ubuntu0~focal_amd64.deb
-Size: 1590820
-SHA256: 5cf090c669a4c4f12e1ec39e56b3259c1a37249fad9fb5f07283e9e19dc76d28
-SHA1: bcaeafc7ea1a9662f0fc0ca1fb3e6dbc6385fa61
-MD5sum: 65f5fcd0ba8fbc5812991e82e7e460b3
+Filename: pool/contrib/i/innernet-server/innernet-server_1.7.0-0ubuntu0~focal_amd64.deb
+Size: 1261416
+SHA256: e045dfa2db04d50c1723973f1da669a90c654fbf2c822f2f313af8fcaf5ec1af
+SHA1: f33913b81a8da7d2f5b537f517c43f6f7c22a5db
+MD5sum: 496305ef0ce0b3eca607e343241cbb5a
 Description: A server to coordinate innernet networks.
 

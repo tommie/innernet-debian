@@ -1,13 +1,13 @@
 Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Codename: noble
-Date: Mon, 20 May 2024 14:37:08 UTC
+Date: Thu, 14 Aug 2025 20:38:40 UTC
 Architectures: amd64 armhf arm64
 Components: contrib
 Description: APT repository for https://github.com/tonarino/innernet/.
 MD5Sum:
- 347069e7b47963e5de4af1d48b7f22f9 1493 contrib/binary-amd64/Packages
- 066355692deb369fc18ec070755b75d8 666 contrib/binary-amd64/Packages.gz
+ a8222d06c90e4d192d4e823e7e8d0fa3 1301 contrib/binary-amd64/Packages
+ 9c4cc990082c1ec363afab32197083ca 642 contrib/binary-amd64/Packages.gz
  77dc2b012f45038d5be68f81d464ee44 179 contrib/binary-amd64/Release
  4b7a1da4e56e8e4ba83ee71b22b837fd 1493 contrib/binary-armhf/Packages
  6c0bc0f7afc88c5b0ca9d90d717ced15 667 contrib/binary-armhf/Packages.gz
@@ -16,8 +16,8 @@ MD5Sum:
  a45e3e772b85790c3537a1fb327016ed 670 contrib/binary-arm64/Packages.gz
  16627cd2b6e090772a75639bb48cd54d 179 contrib/binary-arm64/Release
 SHA1:
- 73fc62d21a3f5ed58fc39eda721e96a135231e5a 1493 contrib/binary-amd64/Packages
- 3aa3b876e018534d0546667823110d9d59007c08 666 contrib/binary-amd64/Packages.gz
+ d1f61c4b9f578d1750a430f30ca562d996fe8142 1301 contrib/binary-amd64/Packages
+ 141bd1b0a2e2648dbc71bfb60526fe0c3d5ef7fd 642 contrib/binary-amd64/Packages.gz
  a4f6bbfd6fe4ab5a01909278c4e13b05d6b06f13 179 contrib/binary-amd64/Release
  238200921358766c322185f72390a936b5824412 1493 contrib/binary-armhf/Packages
  40754da26f81736c16ebe050ab4a8bfe4ee8c3cf 667 contrib/binary-armhf/Packages.gz
@@ -26,8 +26,8 @@ SHA1:
  258383b0020621081528229b93e92b323cef75c4 670 contrib/binary-arm64/Packages.gz
  af10abab9b82b0f8be34be72d478cd7efe4e64b9 179 contrib/binary-arm64/Release
 SHA256:
- 1ac0abccdc8f327a981d6d87378a41869b298c83c2f9aa4c74d9857ded5c2f56 1493 contrib/binary-amd64/Packages
- 1f83cdc78ca13d6d72e0fe79d4da751cf4c0df6381fcaca8f706cf6d23b61cf7 666 contrib/binary-amd64/Packages.gz
+ e1bbf91bd38e486f60881ea33f09bbd3bbeafcd63d88ab2241401cca8ec7634f 1301 contrib/binary-amd64/Packages
+ 04dd197c6e3c3a609b3eafdf7620a7f8edda7d19457d0cf721dd210207ddb108 642 contrib/binary-amd64/Packages.gz
  67b3f0e511499d8b794eaf1524cea47d2263a1e8e43445c60f311dbef9a50e9c 179 contrib/binary-amd64/Release
  13b940ca8a2c57ba3848463e79ccaacbad27140b2e9bc7691898bd5c911682a1 1493 contrib/binary-armhf/Packages
  6a5dd5356fc96fb7e09bfdf7f344c94c341cf228b5d450420bd428ced4c01d26 667 contrib/binary-armhf/Packages.gz
