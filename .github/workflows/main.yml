@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Install Distro Dependencies
-        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes jq liblzma-dev reprepro
+        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes jq liblzma-dev libsqlite3-dev reprepro
 
       - name: Set Ubuntu Release Name
         id: set-ubuntu-release-name
@@ -192,6 +192,14 @@ jobs:
 
       - name: Install Distro Dependencies
         run: |
+          # If apt update fails, it's likely we're not adding the arch filter for the right servers in the right files.
+          # This helps debug that.
+          find /etc/apt
+          for f in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
+            echo $f
+            cat $f
+          done
+
           sudo sed -i -e 's;^\(deb\(-src\)\?\)\(\s\+\)\(\(https\?://azure\.archive\.ubuntu\.com\|https\?://archive\.ubuntu\.com\|https\?://security\.ubuntu\.com\)/\|mirror+file:/etc/apt/apt-mirrors\.txt\);\1\3[arch=amd64,i386]\3\4;' /etc/apt/sources.list /etc/apt/sources.list.d/*.list
           for f in /etc/apt/sources.list.d/*.sources; do
             # -i inplace doesn't work with END.
@@ -205,7 +213,7 @@ jobs:
           echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }}-security main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
           echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ steps.config.outputs.codename }}-updates main universe" | sudo tee -a /etc/apt/sources.list.d/ports.list >/dev/null
           sudo apt-get update
-          sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev pkg-config build-essential "crossbuild-essential-${{ matrix.arch }}" libsqlite3-dev:"${{ matrix.arch }}"
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev libsqlite3-dev pkg-config build-essential "crossbuild-essential-${{ matrix.arch }}" libsqlite3-dev:"${{ matrix.arch }}"
 
       - name: Set Up Environment
         id: setup-env
