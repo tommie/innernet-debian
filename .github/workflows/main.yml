@@ -210,7 +210,7 @@ jobs:
           echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-security main universe" | tee -a /etc/apt/sources.list.d/ports.list >/dev/null
           echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-updates main universe" | tee -a /etc/apt/sources.list.d/ports.list >/dev/null
           apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes dpkg-dev liblzma-dev libsqlite3-dev pkg-config build-essential "crossbuild-essential-${{ matrix.arch }}" libsqlite3-dev:"${{ matrix.arch }}"
+          DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes build-essential ca-certificates "crossbuild-essential-${{ matrix.arch }}" dpkg-dev liblzma-dev libsqlite3-dev libsqlite3-dev:"${{ matrix.arch }}" pkg-config wget
 
       - name: Set Up Environment
         id: setup-env
