@@ -41,6 +41,7 @@ $ sudo apt install innernet
 
 We build for
 
+* Ubuntu 24.04 (**noble**)
 * Ubuntu 22.04 (**jammy**)
 * Ubuntu 20.04 (**focal**)
 
