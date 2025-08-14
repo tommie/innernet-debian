@@ -137,10 +137,10 @@ jobs:
           key: ${{ matrix.os }}-amd64
 
       - name: Build Client DEB
-        run: cargo deb -p client --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+        run: cargo deb -p innernet --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
 
       - name: Build Server DEB
-        run: cargo deb -p server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+        run: cargo deb -p innernet-server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v4
@@ -245,11 +245,11 @@ jobs:
 
       - name: Build Client DEB
         run: |
-          cargo deb -p client --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
+          cargo deb -p innernet --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
 
       - name: Build Server DEB
         run: |
-          cargo deb -p server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
+          cargo deb -p innernet-server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ steps.config.outputs.codename }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v4
