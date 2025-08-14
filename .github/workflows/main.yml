@@ -184,6 +184,7 @@ jobs:
       - name: Infer Configuration
         id: config
         run: |
+          echo "${{ matrix.codename }}"
           case "${{ matrix.os }}" in
           ubuntu-22.04)
             echo "codename=jammy" >>"$GITHUB_OUTPUT"
@@ -192,8 +193,9 @@ jobs:
             echo "codename=focal" >>"$GITHUB_OUTPUT"
             ;;
           *)
-            if [ "ubuntu-$(lsb_release -sr)" = "${{ matrix.os }}" ]; then
-              echo "codename=$(lsb_release -sc)" >>"$GITHUB_OUTPUT"
+            codename=$(. /etc/lsb-release && echo $DISTRIB_RELEASE)
+            if [ -n "$codename" ]; then
+              echo "codename=$codename" >>"$GITHUB_OUTPUT"
             else
               echo "unknown matrix.os: ${{ matrix.os }}" >&2
               exit 1
