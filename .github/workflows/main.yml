@@ -207,6 +207,7 @@ jobs:
           # This helps debug that.
           find /etc/apt
           for f in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources /etc/apt/apt-mirrors.txt; do
+            [ -f "$f" ] || continue
             echo "$f"
             echo "==========================="
             cat $f
