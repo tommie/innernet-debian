@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Install Distro Dependencies
-        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes jq liblzma-dev libsqlite3-dev reprepro
+        run: sudo env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes jq liblzma-dev reprepro
 
       - name: Set Ubuntu Release Name
         id: set-ubuntu-release-name
@@ -110,7 +110,7 @@ jobs:
       - name: Install Distro Dependencies
         run: |
           apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes build-essential ca-certificates dpkg-dev liblzma-dev wget
+          DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes build-essential ca-certificates dpkg-dev liblzma-dev libsqlite3-dev wget
 
       - name: Download Latest Release
         id: download-release
@@ -195,8 +195,9 @@ jobs:
           # If apt update fails, it's likely we're not adding the arch filter for the right servers in the right files.
           # This helps debug that.
           find /etc/apt
-          for f in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
-            echo $f
+          for f in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources /etc/apt/apt-mirrors.txt; do
+            echo "$f"
+            echo "==========================="
             cat $f
           done
 
