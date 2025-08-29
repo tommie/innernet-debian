@@ -54,7 +54,7 @@ on
 Additionally:
 
 * Debian 13 (**trixie**) is served by `noble`.
-  There is a symlink in place to allow `bookworm`, which will cause APT to warn that the codenames missmatch.
+  There is a symlink in place to allow `trixie`, which will cause APT to warn that the codenames missmatch.
   In the end, either name works.
 * Debian 12 (**bookworm**) is served by `jammy`.
   There is a symlink in place to allow `bookworm`, which will cause APT to warn that the codenames missmatch.
