@@ -1,37 +1,37 @@
 Package: innernet
-Version: 1.7.0-0ubuntu0~jammy
+Version: 1.7.1-0ubuntu0~jammy
 Architecture: amd64
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 3851
+Installed-Size: 3845
 Depends: libc6, libgcc1, systemd
 Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.7.0-0ubuntu0~jammy_amd64.deb
-Size: 1207708
-SHA256: 13e165217b086c8ddd4c1baa43b0496756a06837f3ebf27aa527b3d50eed6b63
-SHA1: 65c822f4aa60eadc32b254a0314635e26daf1b29
-MD5sum: d23a38e6ba2218bdc5a6bb4816b53d2b
+Filename: pool/contrib/i/innernet/innernet_1.7.1-0ubuntu0~jammy_amd64.deb
+Size: 1204676
+SHA256: ee9b5f5c787aac066813fd23b0dd4e2c133785cd40e8dddcd177e9406431b55d
+SHA1: 115d6a52c4132ce802b425e23ea9685236d4c8c5
+MD5sum: 3a971fb52a111ebc6aee162bddcb2a93
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.7.0-0ubuntu0~jammy
+Version: 1.7.1-0ubuntu0~jammy
 Architecture: amd64
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 3974
+Installed-Size: 3964
 Depends: libc6, libgcc1, libsqlite3-0, systemd, zlib1g
 Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.7.0-0ubuntu0~jammy_amd64.deb
-Size: 1261496
-SHA256: fe1ca09b1860b4ae3d2fb0d40c4a7571d16b12b37cce0320b30d709c2d14ba57
-SHA1: d8519c92f8c00d2ca8eb880c6c3af4d940cc0ce5
-MD5sum: e00507a9f693a33c79cd41c50ee25c00
+Filename: pool/contrib/i/innernet-server/innernet-server_1.7.1-0ubuntu0~jammy_amd64.deb
+Size: 1255324
+SHA256: 29174a558f2cb54913921492db9bb17799aee8c72428676fc8bd0af3a8b0af03
+SHA1: f41088aade3456ec292d9dd5797cd2585b7c8a0f
+MD5sum: 75fb83d117c0e4bc3a1c741d36688388
 Description: A server to coordinate innernet networks.
 
