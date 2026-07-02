@@ -4,51 +4,51 @@ Hash: SHA512
 Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Codename: focal
-Date: Mon, 10 Nov 2025 14:47:47 UTC
+Date: Thu, 02 Jul 2026 16:23:40 UTC
 Architectures: amd64 armhf arm64
 Components: contrib
 Description: APT repository for https://github.com/tonarino/innernet/.
 MD5Sum:
- 18a41d51aec477a0318da072e40a83ad 1301 contrib/binary-amd64/Packages
- 4e9838b23c47c94fbdfd47636d50bf5b 638 contrib/binary-amd64/Packages.gz
+ 2afdee0a88ea9416b199b697aac34322 1301 contrib/binary-amd64/Packages
+ 15da6bc4383db960b55d9cb81d04022e 641 contrib/binary-amd64/Packages.gz
  77dc2b012f45038d5be68f81d464ee44 179 contrib/binary-amd64/Release
- fd61653c0abac0a9a4940d58bf9822ce 1301 contrib/binary-armhf/Packages
- ca09c8646365095d3901cb9452157463 639 contrib/binary-armhf/Packages.gz
+ bcdf236a09e4f55ea0025062aff70336 1301 contrib/binary-armhf/Packages
+ cfde4adc82f705cbfbb8b63f2b8801f4 641 contrib/binary-armhf/Packages.gz
  2e56331833f644fa9dad5483acc93e55 179 contrib/binary-armhf/Release
- 6acf9c3a97165e3b7a6752a671ec6af2 1301 contrib/binary-arm64/Packages
- eed6cf7dec8bc6b7145f15791889dd34 640 contrib/binary-arm64/Packages.gz
+ 987880f2ed55db415b217b55a8925ae8 1301 contrib/binary-arm64/Packages
+ 3809f14334455501a4ba67223caf2e0d 640 contrib/binary-arm64/Packages.gz
  16627cd2b6e090772a75639bb48cd54d 179 contrib/binary-arm64/Release
 SHA1:
- ac432cc7d55bb46b3460d5a936882ef11892476b 1301 contrib/binary-amd64/Packages
- fc09ade248658bc0e8cb490a8741fb9b5e768f06 638 contrib/binary-amd64/Packages.gz
+ dda3fdf2791c1592f910ee685cd35eab12fbe322 1301 contrib/binary-amd64/Packages
+ 0be997af74c76ab514892b16b5cb63f64b1e2c68 641 contrib/binary-amd64/Packages.gz
  a4f6bbfd6fe4ab5a01909278c4e13b05d6b06f13 179 contrib/binary-amd64/Release
- c30a56a18d403090425a543176dd0365d53cad2b 1301 contrib/binary-armhf/Packages
- 15ea629be721a9cf1057b6f1e9ed64ed7687d2ca 639 contrib/binary-armhf/Packages.gz
+ 6be6b1cc0251075a1533b02ceb6afd3e3c990209 1301 contrib/binary-armhf/Packages
+ 0acef9d9b6e119287275e71a3fccdc751fd0a5bc 641 contrib/binary-armhf/Packages.gz
  dbfc90ff9af0819e8b73429a32e4691204b11da7 179 contrib/binary-armhf/Release
- ae9fe7ff0a5c1da54751a6ee3aa768d69c3019b9 1301 contrib/binary-arm64/Packages
- fa0876a3af7a328e9dc403ab388e38f0021e72bc 640 contrib/binary-arm64/Packages.gz
+ cf6032958223f5329c0e11b773208fd3b87b65a8 1301 contrib/binary-arm64/Packages
+ cbe47e30cdb6e1e0f1c7713c793e5058f7a8e067 640 contrib/binary-arm64/Packages.gz
  af10abab9b82b0f8be34be72d478cd7efe4e64b9 179 contrib/binary-arm64/Release
 SHA256:
- 66a1a36dfb64f02b4c46106502e7e737c3363d02db4434c4ee0811d350ccc222 1301 contrib/binary-amd64/Packages
- 6c219313c6c40655fa64807b2059ccf279d6f741068f92c5493b265d39d396be 638 contrib/binary-amd64/Packages.gz
+ 3111026b859727c070e926236850cf062ed31be6ae7680dce87ea7011274df2b 1301 contrib/binary-amd64/Packages
+ 5ee72fd73188303d620bb48043d2e21715daafea9e13774d4493c1da852ea8e2 641 contrib/binary-amd64/Packages.gz
  67b3f0e511499d8b794eaf1524cea47d2263a1e8e43445c60f311dbef9a50e9c 179 contrib/binary-amd64/Release
- fbd7be5008bce31672339dd4b2ea76abc054d763cfea1c9c39245ec29790951e 1301 contrib/binary-armhf/Packages
- 036b0f71fee8b7345c95c5d2ed447c4b02c34092f70d931bfcf5c5580b062b66 639 contrib/binary-armhf/Packages.gz
+ 9405a878a722e7c7f65325d5ea518a2b5e885f22997d53ee0630a1fc6706d23b 1301 contrib/binary-armhf/Packages
+ 5bafcb7f6f1c97fb1f4f07692815c297a236fe2fe6e2a1950efa0c19bf35cf46 641 contrib/binary-armhf/Packages.gz
  ce7a57575ec61bf1af16351e2366f7114f6ad78e035696abaaac42f80dd8f425 179 contrib/binary-armhf/Release
- aa1cd8da053dee7491a0bdbe0a050e0c64914ff73a1ed021cfba8d662dcef037 1301 contrib/binary-arm64/Packages
- f022577faa18887b6271176be6fb9bfdc8d4cd925520ce8ff512851060b42d02 640 contrib/binary-arm64/Packages.gz
+ 62a957f91ac0718d8314fd37ca5ee75551efa3199a00af80fadce45ddccd5232 1301 contrib/binary-arm64/Packages
+ 6616d8225a9015e3a36bf34a1d90b0e432c9bc29cf4f7ab2742353de0d7dad52 640 contrib/binary-arm64/Packages.gz
  86092179ad14de3750a8a527f8419920154bd761ea7367b9452abe85cfbca03d 179 contrib/binary-arm64/Release
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmkR+xQACgkQZYKNdDzu
-i2nnVwv/WyPK/ZUvSV6GyCp0nCOav8nqm07/c5ZCFGa9lmFpbVncpyBvXSyv3wBi
-KjaGQ2VqHolFJzeCqn90bYGoKjmfZ01x0xi04jBBGSudAiiQsbe45AEzadm7ucPZ
-ZtQ+iVfRkRmefi1Tx7IoAKDjYfzhoOYUC8MWO6sz7UENFZbl/+dOKH3YZKnvRr5G
-On09d+7CxUnsPwdnSarkWdDK10aBvkOHYyqUencmEhBUM3DXyWm411WJOHPGVEo1
-dNThn+M/TZNx9D2s9nK273nxgEkE2TIN3Bk7GVYQvnpN2mBApRwL+fnTwlC6C5/2
-UXKA6o993+uPU0j0ZlOA941y6qAdZSnf5FQqA52Ihhr9oltHpbE4DvSB845y8r5O
-S9osI1GH65pX3Jc3ysWUzRn6gc6kcMwTJtCpDSiO+LpJ9SEm6/9yJj8wDBT3KI+6
-FPwVmN/36ee41hkc3HTIz9GmAehh5nQOB7txikhCrA5QX/OsU5YVAjflmW9hF4cb
-0rKWUDHk
-=uGW4
+iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmpGkIwACgkQZYKNdDzu
+i2lXIAv+OJbE2IQR6qkpILrtUiQAQiEHQ9jGZnxTb8LpTmk1SSbVeHu1EYzEIVbs
+zkmbgv1zimNBdI0rUsVWLFB0d/3ln/nKJPoamrd5S/mvsxVvIBJDlZrUYKnIz2sW
+gTMeUStcpolF6QAR29iq7nM1sVZJhOLbFKltq2h3T1kkXP6IdBRCDNcThYdlCyUc
+iUecoOL4lDhGRVg0uOXDxxgqApmzPZD83qIZNYI70J4osTseSUIdBYTlKH2f3KWA
+VhjHzVOJk+dBtCYM/yCm1ULB7WXixTElaXasFd3ghFGv8KzdciOZDtlmMDc8Mgqa
+zhxWGRHM/LOlj8VeZe8PE8XcaBFFZpk7gDrb1OylG9N3eCqg7sLaR1d9xDfmOSiy
+h2kcnZAp5uLR++1oYh+2CLlfNz9e+rOHh4Mv0mWE77oFljICD2WpeGeJUfE730M6
+LtOt0LRfqTCj/ZeGzNAKevA6tzyUjsGVyRWa59I6xxt3t/eGQ7IOY+oxR6I7w4kR
+RMm0rKL1
+=WTZ5
 -----END PGP SIGNATURE-----

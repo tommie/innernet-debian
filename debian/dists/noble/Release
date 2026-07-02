@@ -1,37 +1,37 @@
 Origin: Unofficial Innernet Debian repository
 Label: innernet-debian
 Codename: noble
-Date: Mon, 10 Nov 2025 14:47:46 UTC
+Date: Thu, 02 Jul 2026 16:23:38 UTC
 Architectures: amd64 armhf arm64
 Components: contrib
 Description: APT repository for https://github.com/tonarino/innernet/.
 MD5Sum:
- a007d556e52f0020f5840befbc3c5818 1301 contrib/binary-amd64/Packages
- 2ac0b7cbe79a7fe6093258b4d67b101e 643 contrib/binary-amd64/Packages.gz
+ 8d458840fae64013eea3133e72cf8fe8 1301 contrib/binary-amd64/Packages
+ 2f800a687fc65075488e7da7f6c34385 639 contrib/binary-amd64/Packages.gz
  77dc2b012f45038d5be68f81d464ee44 179 contrib/binary-amd64/Release
- eed3be1bc8247cb4245fa88dd33a48a7 1301 contrib/binary-armhf/Packages
- d34797f11ea2317b8bfd75c710969fdb 642 contrib/binary-armhf/Packages.gz
+ 0b4f6181181a809db24b46b3e8e2e4c1 1301 contrib/binary-armhf/Packages
+ e1f314037af23cd4dd820432b1b6f9a3 641 contrib/binary-armhf/Packages.gz
  2e56331833f644fa9dad5483acc93e55 179 contrib/binary-armhf/Release
- 0fc8e3f6cdc68d03ec927154aaf8a302 1301 contrib/binary-arm64/Packages
- d3d09533036ae53a56504ddb7272ade7 639 contrib/binary-arm64/Packages.gz
+ 86a84e3c5b478e878388c67196adfe2d 1301 contrib/binary-arm64/Packages
+ 27f559febabb6c49776bea50f168f28d 642 contrib/binary-arm64/Packages.gz
  16627cd2b6e090772a75639bb48cd54d 179 contrib/binary-arm64/Release
 SHA1:
- 54402558fa4f4bbfa51dde3b80565fecac1eb2a5 1301 contrib/binary-amd64/Packages
- f0fbd9f7c51da81c1fe173c332ccce6b4a7593fc 643 contrib/binary-amd64/Packages.gz
+ ce1b4ae298fbc2b949359baaf7ffa34c7f22eb39 1301 contrib/binary-amd64/Packages
+ fe3a059433e77c8867600293207fbe50dabd6f79 639 contrib/binary-amd64/Packages.gz
  a4f6bbfd6fe4ab5a01909278c4e13b05d6b06f13 179 contrib/binary-amd64/Release
- d50890abbe58f1c025b6b751f5409db77aa9e698 1301 contrib/binary-armhf/Packages
- a450eb2e1458f3baf1e1c68224a950de99ce66c3 642 contrib/binary-armhf/Packages.gz
+ fa9fcd987761738d59561a67c06f27d8d6e4aef4 1301 contrib/binary-armhf/Packages
+ f3ae4a1738edaed70dc719a4bb33f1d8c17c61ef 641 contrib/binary-armhf/Packages.gz
  dbfc90ff9af0819e8b73429a32e4691204b11da7 179 contrib/binary-armhf/Release
- 35b3484e58edaf49547ba09b99b11a09fa74ee1f 1301 contrib/binary-arm64/Packages
- 595ce8f7b342749e4e239460ec35b40961b30e87 639 contrib/binary-arm64/Packages.gz
+ 322037b465b681ef1926a4e1f88afe9adaffd22c 1301 contrib/binary-arm64/Packages
+ 4b4d04bd8a004ff0a4c4da6427e50a689a4097b2 642 contrib/binary-arm64/Packages.gz
  af10abab9b82b0f8be34be72d478cd7efe4e64b9 179 contrib/binary-arm64/Release
 SHA256:
- 2eda68a64a80b4691b9a52555ee78c9d692ef9964eca93b5a8c730863a553423 1301 contrib/binary-amd64/Packages
- ebf6db8ef1095039c067b5b73ff29f6f4db16d691af7f09af812fbad81ef2782 643 contrib/binary-amd64/Packages.gz
+ 9e26fe9ca11f03405b390f1a20a3c6d2ce33937120ae4af1c52b6c5c8fc4e5b6 1301 contrib/binary-amd64/Packages
+ 78c961de7059bde2587359d18c81d875c9fa1bc286056d6c7f55313174fc4cde 639 contrib/binary-amd64/Packages.gz
  67b3f0e511499d8b794eaf1524cea47d2263a1e8e43445c60f311dbef9a50e9c 179 contrib/binary-amd64/Release
- 96f6a02e9eb180bce3ac0bc79372ef066fa410003003a25cbc5122144702f26f 1301 contrib/binary-armhf/Packages
- 6572f41f7057dd9a21dd61d89ffb7c8497e9c86ae4daa0d5c71d1674e8e73dd7 642 contrib/binary-armhf/Packages.gz
+ 2484e4fc48ad74ff233299aef93c51fb5761f2173208e14dd65bd76e618cf45c 1301 contrib/binary-armhf/Packages
+ 40b6b8f3ff04dc2f5d9ed9e0ac47b6709b5f0c59fc2b628fe423abdcc8ab1f1a 641 contrib/binary-armhf/Packages.gz
  ce7a57575ec61bf1af16351e2366f7114f6ad78e035696abaaac42f80dd8f425 179 contrib/binary-armhf/Release
- 02f1277f097ddc29c3c0bebdff76a2798250f08b4f2b98a0bcd924d567cc2492 1301 contrib/binary-arm64/Packages
- b236d0754e564e7af0393c2653917f6debc77685f60e3fee723bb9d7a594bcae 639 contrib/binary-arm64/Packages.gz
+ 9fc4f54a8039da5439b21dbbbd179f82fb81dac2a67cfc94cc21dafc3ea8191d 1301 contrib/binary-arm64/Packages
+ 3a223884bc61422fab4136869696dc99d6c0c33bb53d06e6d8c5556009996b52 642 contrib/binary-arm64/Packages.gz
  86092179ad14de3750a8a527f8419920154bd761ea7367b9452abe85cfbca03d 179 contrib/binary-arm64/Release

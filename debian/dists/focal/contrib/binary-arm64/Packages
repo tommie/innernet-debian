@@ -1,37 +1,37 @@
 Package: innernet
-Version: 1.7.1-0ubuntu0~focal
+Version: 2.0.0-0ubuntu0~focal
 Architecture: arm64
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 3375
+Installed-Size: 3338
 Depends: libc6, libgcc1, systemd
 Recommends: wireguard
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet/innernet_1.7.1-0ubuntu0~focal_arm64.deb
-Size: 1054056
-SHA256: be550c1c1e62464fe6881fcb418008ff1e56f54755e2ebbcf5d5abd3d58d1d5b
-SHA1: 55be272d5edf0be4458bbfc7348b9cebdcb08d5a
-MD5sum: 57870409faff47aa731d4ecff89d94ad
+Filename: pool/contrib/i/innernet/innernet_2.0.0-0ubuntu0~focal_arm64.deb
+Size: 1049632
+SHA256: 778dfb83abe777169d33b03e3ab98b7d82bc458285b52e54cd38ad2441d0988c
+SHA1: 004f51d6c2db634b295f91afef4eeb63e60af398
+MD5sum: a475b1badfbfecbde57d6c44604ce351
 Description: A client to manage innernet network interfaces.
  innernet client binary for fetching peer information and conducting admin tasks
  such as adding a new peer.
 
 Package: innernet-server
-Version: 1.7.1-0ubuntu0~focal
+Version: 2.0.0-0ubuntu0~focal
 Architecture: arm64
 Homepage: https://github.com/tonarino/innernet
 Maintainer: tonari <hey@tonari.no>
-Installed-Size: 3502
+Installed-Size: 3426
 Depends: libc6, libgcc1, libsqlite3-0, systemd, zlib1g
 Recommends: wireguard
 Source: innernet
 Priority: optional
 Section: net
-Filename: pool/contrib/i/innernet-server/innernet-server_1.7.1-0ubuntu0~focal_arm64.deb
-Size: 1104408
-SHA256: cb703a7002f6610308722f1cf8437d4f59977f92c64b5ca209efc81bf98f3fb1
-SHA1: cceaef5c990c039a679a2483cb1542c3a6ee1858
-MD5sum: cedb86b4a8435fcc94d19f99d58d241c
+Filename: pool/contrib/i/innernet-server/innernet-server_2.0.0-0ubuntu0~focal_arm64.deb
+Size: 1088952
+SHA256: 44d6e45bbe0b57d7b9268fb4f46265f4c591dac9b91871458194e0e168b73fcc
+SHA1: 6b69c17562e9231eae202e2190b2c8c2e0a6bfb8
+MD5sum: caa51807e63c49e1ddd47cf505efaa32
 Description: A server to coordinate innernet networks.
 
