@@ -1,0 +1,37 @@
+Package: innernet
+Version: 2.0.0-0ubuntu0~resolute
+Architecture: amd64
+Homepage: https://github.com/tonarino/innernet
+Maintainer: tonari <hey@tonari.no>
+Installed-Size: 3682
+Depends: libc6, libgcc1, systemd
+Recommends: wireguard
+Priority: optional
+Section: net
+Filename: pool/contrib/i/innernet/innernet_2.0.0-0ubuntu0~resolute_amd64.deb
+Size: 1188092
+SHA256: 45f107c7bd01439d3e0d56f6a5e155eee13f8b60ab2bdd807fa676ffc910f351
+SHA1: 190f0e69e7d05aa69c45509c86fc80fb95302522
+MD5sum: 14763a4ecc9e91a90a00093c5e5ab379
+Description: A client to manage innernet network interfaces.
+ innernet client binary for fetching peer information and conducting admin tasks
+ such as adding a new peer.
+
+Package: innernet-server
+Version: 2.0.0-0ubuntu0~resolute
+Architecture: amd64
+Homepage: https://github.com/tonarino/innernet
+Maintainer: tonari <hey@tonari.no>
+Installed-Size: 3769
+Depends: libc6, libgcc1, libsqlite3-0, systemd, zlib1g
+Recommends: wireguard
+Source: innernet
+Priority: optional
+Section: net
+Filename: pool/contrib/i/innernet-server/innernet-server_2.0.0-0ubuntu0~resolute_amd64.deb
+Size: 1228708
+SHA256: 7576c73eb6938da2ff92c3ceb75fde4926812a3d44447660f8a591bd065f5dc6
+SHA1: a3de6f952b01410529972d937e54eb2ab0c9e4dc
+MD5sum: 00cf2c411afd7045958e4e11ee175344
+Description: A server to coordinate innernet networks.
+

@@ -1,0 +1,54 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: Unofficial Innernet Debian repository
+Label: innernet-debian
+Codename: resolute
+Date: Mon, 02 Nov 2026 12:49:27 UTC
+Architectures: amd64 armhf arm64
+Components: contrib
+Description: APT repository for https://github.com/tonarino/innernet/.
+MD5Sum:
+ 985521fce9cb35bd7b53ff2529834364 1313 contrib/binary-amd64/Packages
+ 110612f6dc3b30b6e8b3764344b54115 644 contrib/binary-amd64/Packages.gz
+ 77dc2b012f45038d5be68f81d464ee44 179 contrib/binary-amd64/Release
+ f9655746d6e4a35621755ca7c6cb2954 1313 contrib/binary-armhf/Packages
+ 07774bcceed534a0fc505766ad4133ee 645 contrib/binary-armhf/Packages.gz
+ 2e56331833f644fa9dad5483acc93e55 179 contrib/binary-armhf/Release
+ 3ffb46a8352de917d5e1e28f80aa8dae 1313 contrib/binary-arm64/Packages
+ 8f3abb06e8c2721e0ad3980288bf244f 640 contrib/binary-arm64/Packages.gz
+ 16627cd2b6e090772a75639bb48cd54d 179 contrib/binary-arm64/Release
+SHA1:
+ e0a270cbb2d0d121acd3932bdfdd36705022614e 1313 contrib/binary-amd64/Packages
+ 10c5c5c54e143eb4d7b5a598d588e3da242b235e 644 contrib/binary-amd64/Packages.gz
+ a4f6bbfd6fe4ab5a01909278c4e13b05d6b06f13 179 contrib/binary-amd64/Release
+ 32729020337164153deb2d16e4ebe41d255b85bd 1313 contrib/binary-armhf/Packages
+ 5991cce01756191912e98cbc7d1ab7ce62c2065f 645 contrib/binary-armhf/Packages.gz
+ dbfc90ff9af0819e8b73429a32e4691204b11da7 179 contrib/binary-armhf/Release
+ a883f35d4f412155a937e9b88dd248fab694d501 1313 contrib/binary-arm64/Packages
+ 9f3ff37806a90cc086340e261ecd9bd8f53b8907 640 contrib/binary-arm64/Packages.gz
+ af10abab9b82b0f8be34be72d478cd7efe4e64b9 179 contrib/binary-arm64/Release
+SHA256:
+ 6a8bc9f28a441a411d1640d69d77ff7af4bf8f24a1947e0f9d581b31ceb4a3be 1313 contrib/binary-amd64/Packages
+ 12f34245106e9d2f43782daf85d29038019e262865fd50980d6a0b3cf5fcc2e2 644 contrib/binary-amd64/Packages.gz
+ 67b3f0e511499d8b794eaf1524cea47d2263a1e8e43445c60f311dbef9a50e9c 179 contrib/binary-amd64/Release
+ ff57adae9cd93ed63d647ddd7d43c9b8cdd2515390965c96162dc0410b04387f 1313 contrib/binary-armhf/Packages
+ 633125cfaba3f8535f1b364bd1fb584cbef711f802aeda90816171265bca19ee 645 contrib/binary-armhf/Packages.gz
+ ce7a57575ec61bf1af16351e2366f7114f6ad78e035696abaaac42f80dd8f425 179 contrib/binary-armhf/Release
+ 1c7b44db2135e966c2b64f111dd02ee4f7e256a9a1adb47275aa648c2ef7d1c1 1313 contrib/binary-arm64/Packages
+ 037637e237b61bf9f62cbac6e02f6c1d23d235ca41ec397b2cb383a92674b4f7 640 contrib/binary-arm64/Packages.gz
+ 86092179ad14de3750a8a527f8419920154bd761ea7367b9452abe85cfbca03d 179 contrib/binary-arm64/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEbYSVpa4ZFZQzkqZZZYKNdDzui2kFAmrohtgACgkQZYKNdDzu
+i2lbjQv9E2cEnrj+sJOmZN3xm7MV/iTSX50VV7IBBIXAfpDhHcKTKGz9NtTvAZ64
+IhHyl9sG/vTknhKAk/XSmB2XHGLB28b+MacbWgXV4A8+6TEw3jCZNnrpRRsAmflr
+FzflzK2AIJ3Ihs51kri9P1Ktj6kO1nlp5LPFwMwfBfLzeC3u9niiXeU70jzBOmmB
+VKnLa9UzW/1EnNgkZk9BIYZYEzStxN4bRrXkjL3hbebolwH3xxKYTEUVAthSY6bY
+eyWXdiPUwYZAMzgjV75SC+04skm9Io6pKAgDihKdozv7M3aoh3wfe5SP+7VuqiQR
+LgI4hK7Scg54ikoL8fpMUb1yyw7QjjIlYFK4F8/mYeu2B+fb/KWVtIltwg6W7vl4
+uB/r4LuWEp1g1JQzRgGbuXPbo0KmAVuS1uE+JYr2zWA484q1J9XqGYVOLIbRpJwQ
+IjGw+05M8JZM7Rvdm1gPggt1nJN8qse7eIGCxlN+dGBN2GgcLgepGToBky7xGyHA
+jBGLZy4e
+=XVKE
+-----END PGP SIGNATURE-----
