@@ -96,6 +96,9 @@ jobs:
         arch: [amd64]
         os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
         include:
+          - os: ubuntu-26.04
+            codename: resolute
+            image: ubuntu:26.04
           - os: ubuntu-24.04
             codename: noble
             image: ubuntu:24.04
@@ -170,6 +173,9 @@ jobs:
           - arch: arm64
             target: aarch64-unknown-linux-gnu
             target_prefix: aarch64-linux-gnu-
+          - os: ubuntu-26.04
+            codename: resolute
+            image: ubuntu:26.04
           - os: ubuntu-24.04
             codename: noble
             image: ubuntu:24.04
