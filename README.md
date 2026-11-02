@@ -41,6 +41,7 @@ $ sudo apt install innernet
 
 We build for
 
+* Ubuntu 26.04 (**resolute**)
 * Ubuntu 24.04 (**noble**)
 * Ubuntu 22.04 (**jammy**)
 * Ubuntu 20.04 (**focal**)
@@ -72,7 +73,8 @@ The authoritative source of supported distributions and architectures is [`conf/
 When Ubuntu/Debian releases a new version, we need to
 
 1. Add the new distribution in `debian/conf/distributions`.
-1. Add the version and codename to the matrix in `build-deb` in `.github/workflows/main.yml`.
+1. Add the version, codename and image to the `distros` array in the `check-upstream` job in `.github/workflows/main.yml`.
+1. Add it in the `README`.
 
 ## License
 
