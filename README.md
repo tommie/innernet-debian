@@ -14,11 +14,18 @@ For more information, see https://github.com/tonarino/innernet.
 ```sh
 codename=$(lsb_release --codename --short)
 curl -sS https://tommie.github.io/innernet-debian/repository.asc | sudo tee /etc/apt/keyrings/github-tommie-innernet.asc >/dev/null
-cat >/etc/apt/sources.list.d/innernet.list <<EOF
-deb [signed-by=/etc/apt/keyrings/github-tommie-innernet.asc] https://tommie.github.io/innernet-debian/debian $codename contrib
+sudo tee /etc/apt/sources.list.d/innernet.sources >/dev/null <<EOF
+Types: deb
+URIs: https://tommie.github.io/innernet-debian/debian
+Suites: $codename
+Components: contrib
+Architectures: amd64 armhf arm64
+Signed-By: /etc/apt/keyrings/github-tommie-innernet.asc
 EOF
-apt update
+sudo apt update
 ```
+
+If you previously added `/etc/apt/sources.list.d/innernet.list`, remove it to avoid APT warning about duplicate entries.
 
 ### Installing the Server
 
