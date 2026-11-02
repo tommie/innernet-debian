@@ -57,22 +57,27 @@ jobs:
       - name: Check Repo Release
         id: check-repo-release
         run: |
-          declare -a new_release_exists
-          ver_codenames=( $(python3 -c 'import json; import yaml; import sys; json.dump(yaml.safe_load(open(sys.argv[1])), sys.stdout)' .github/workflows/main.yml | jq -r '.jobs."build-deb".strategy.matrix.include[] | .os+"/"+.codename') )
+          # name codename image
+          distros=(
+            "ubuntu-26.04 resolute ubuntu:26.04"
+            "ubuntu-24.04 noble ubuntu:24.04"
+            "ubuntu-22.04 jammy ubuntu:22.04"
+            "ubuntu-20.04 focal ubuntu:20.04"
+          )
+          new_release_exists=""
           for arch in amd64 armhf arm64; do
-            for ver_codename in "${ver_codenames[@]}"; do
-              ver=${ver_codename%/*}
-              codename=${ver_codename##*/}
+            for distro in "${distros[@]}"; do
+              read -r name codename image <<<"$distro"
               # Note the leading v to match the Git tag.
               indexed=v$(reprepro -A "$arch" -b debian --list-format '${version}\n' listmatched "$codename" innernet)
               upstream="${{ steps.check-latest-release.outputs.innernet_release }}-0ubuntu0~$codename"
               echo "Repo release in $codename/$arch: $indexed"
               if [ "x$indexed" != "x$upstream" ]; then
-                new_release_exists+=( "\"$ver\"" )
+                new_release_exists+="$distro"$'\n'
               fi
             done
           done
-          (IFS=$'\n' ; echo "new_release_exists=[$(echo -n "${new_release_exists[*]}" | sort -u | tr '\n' , | sed -e 's;,$;;')]" >>"$GITHUB_OUTPUT")
+          echo "new_release_exists=$(printf '%s' "$new_release_exists" | sort -u | jq -Rsc 'split("\n") | map(select(. != "") | split(" ") | {name: .[0], codename: .[1], image: .[2]})')" >>"$GITHUB_OUTPUT"
 
       - name: Show Output
         id: show-output
@@ -84,30 +89,17 @@ jobs:
           echo "* \`new_release_exists=${{ steps.check-repo-release.outputs.new_release_exists }}\`" >>"$GITHUB_STEP_SUMMARY"
 
   build-deb:
-    name: Build DEB Packages ${{ matrix.os }}/${{ matrix.arch }}
+    name: Build DEB Packages ${{ matrix.os.name }}/${{ matrix.arch }}
     needs: [check-upstream]
     if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
     runs-on: ubuntu-latest
     container:
-      image: ${{ matrix.image }}
+      image: ${{ matrix.os.image }}
 
     strategy:
       matrix:
         arch: [amd64]
         os: ${{ fromJson(needs.check-upstream.outputs.new_release_exists) }}
-        include:
-          - os: ubuntu-26.04
-            codename: resolute
-            image: ubuntu:26.04
-          - os: ubuntu-24.04
-            codename: noble
-            image: ubuntu:24.04
-          - os: ubuntu-22.04
-            codename: jammy
-            image: ubuntu:22.04
-          - os: ubuntu-20.04
-            codename: focal
-            image: ubuntu:20.04
 
     steps:
       - name: Install Distro Dependencies
@@ -137,28 +129,28 @@ jobs:
       - name: Set Up Rust Cache
         uses: Swatinem/rust-cache@v2
         with:
-          key: ${{ matrix.os }}-amd64
+          key: ${{ matrix.os.name }}-amd64
 
       - name: Build Client DEB
-        run: cargo deb -p innernet --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+        run: cargo deb -p innernet --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.os.codename }}
 
       - name: Build Server DEB
-        run: cargo deb -p innernet-server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+        run: cargo deb -p innernet-server --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.os.codename }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v4
         with:
           # Syntax: https://github.com/actions/upload-artifact/issues/22
-          name: deb ${{ matrix.codename }} ${{ matrix.arch }}
+          name: deb ${{ matrix.os.codename }} ${{ matrix.arch }}
           path: target/debian/*.deb
 
   build-cross-deb:
-    name: Build DEB Packages ${{ matrix.os }}/${{ matrix.arch }} (Cross-Compiled)
+    name: Build DEB Packages ${{ matrix.os.name }}/${{ matrix.arch }} (Cross-Compiled)
     needs: [check-upstream]
     if: "fromJson(needs.check-upstream.outputs.new_release_exists)[0] != null"
     runs-on: ubuntu-latest
     container:
-      image: ${{ matrix.image }}
+      image: ${{ matrix.os.image }}
 
     strategy:
       matrix:
@@ -173,18 +165,6 @@ jobs:
           - arch: arm64
             target: aarch64-unknown-linux-gnu
             target_prefix: aarch64-linux-gnu-
-          - os: ubuntu-26.04
-            codename: resolute
-            image: ubuntu:26.04
-          - os: ubuntu-24.04
-            codename: noble
-            image: ubuntu:24.04
-          - os: ubuntu-22.04
-            codename: jammy
-            image: ubuntu:22.04
-          - os: ubuntu-20.04
-            codename: focal
-            image: ubuntu:20.04
 
     steps:
       - name: Install Distro Dependencies
@@ -212,9 +192,9 @@ jobs:
           dpkg --add-architecture "${{ matrix.arch }}"
           # apt-get install goes into an infinite loop (use -o Debug::pkgAcquire=true to see it) if we use apt-mirrors.txt, like GitHub does for the host architecture.
           # So we just limit the mirrors file and use our trusty sources.list overrides.
-          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }} main universe" | tee /etc/apt/sources.list.d/ports.list >/dev/null
-          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-security main universe" | tee -a /etc/apt/sources.list.d/ports.list >/dev/null
-          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.codename }}-updates main universe" | tee -a /etc/apt/sources.list.d/ports.list >/dev/null
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.os.codename }} main universe" | tee /etc/apt/sources.list.d/ports.list >/dev/null
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.os.codename }}-security main universe" | tee -a /etc/apt/sources.list.d/ports.list >/dev/null
+          echo "deb [arch=armhf,arm64,riscv64] http://ports.ubuntu.com/ ${{ matrix.os.codename }}-updates main universe" | tee -a /etc/apt/sources.list.d/ports.list >/dev/null
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes build-essential ca-certificates "crossbuild-essential-${{ matrix.arch }}" dpkg-dev liblzma-dev libsqlite3-dev libsqlite3-dev:"${{ matrix.arch }}" pkg-config wget
 
@@ -248,7 +228,7 @@ jobs:
       - name: Set Up Rust Cache
         uses: Swatinem/rust-cache@v2
         with:
-          key: ${{ matrix.os }}-${{ matrix.arch }}
+          key: ${{ matrix.os.name }}-${{ matrix.arch }}
 
       - name: Install cargo-deb
         run: |
@@ -256,17 +236,17 @@ jobs:
 
       - name: Build Client DEB
         run: |
-          cargo deb -p innernet --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+          cargo deb -p innernet --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.os.codename }}
 
       - name: Build Server DEB
         run: |
-          cargo deb -p innernet-server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.codename }}
+          cargo deb -p innernet-server --target=${{ matrix.target }} --deb-version=${{ needs.check-upstream.outputs.innernet_version }}-0ubuntu0~${{ matrix.os.codename }}
 
       - name: Upload DEBs
         uses: actions/upload-artifact@v4
         with:
           # Syntax: https://github.com/actions/upload-artifact/issues/22
-          name: deb ${{ matrix.codename }} ${{ matrix.arch }}
+          name: deb ${{ matrix.os.codename }} ${{ matrix.arch }}
           path: target/debian/*.deb
 
   test-cross:
